@@ -69,7 +69,7 @@ public class TriangleParser implements MutantVizController{
 				class_name = split[1];
 				int line_number = Integer.parseInt(line_split[5]);
 				String mutant_dir = directory + "/mutants/" + line_split[0] + "/triangle/Triangle.java";
-				String mutant_source = new Scanner(new File(mutant_dir)).useDelimiter("\\Z").next();
+				String mutant_source = SlurpFile(mutant_dir);
 				Mutant mutant = new Mutant(mutant_id, 
 						mutator, 
 						class_name, 
@@ -124,7 +124,7 @@ public class TriangleParser implements MutantVizController{
 		// Reading block
 		String source_path = directory + "/triangle/Triangle.java";
 		try {
-			String source = new Scanner(new File(source_path)).useDelimiter("\\Z").next();
+			String source = SlurpFile(source_path);
 			SourceClass source_class = new SourceClass("Triangle", source, model.GetSummary());
 			System.out.println(source_class.ClassName);
 			model.AddSource(source_class);
@@ -139,13 +139,20 @@ public class TriangleParser implements MutantVizController{
 		// Reading block
 				String source_path = directory + "/triangle/TriangleTest.java";
 				try {
-					String source = new Scanner(new File(source_path)).useDelimiter("\\Z").next();
+					String source = SlurpFile(source_path);
 					Test test_class = new Test(source, model.GetSummary());
 					model.AddTest(test_class);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+	}
+	
+	private String SlurpFile(String path) throws FileNotFoundException {
+		Scanner sc = new Scanner(new File(path));
+		String contents = sc.useDelimiter("\\Z").next();
+		sc.close();
+		return contents;
 	}
 
 	/**
