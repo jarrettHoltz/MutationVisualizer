@@ -1,3 +1,4 @@
+package model;
 /**
  * Generic Interface for the Mutant Visualizer controller
  * @author jaholtz

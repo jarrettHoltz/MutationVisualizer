@@ -1,3 +1,4 @@
+package model;
 /**
  * Summary class contains a summary of mutant coverage
  * and kill statistics
