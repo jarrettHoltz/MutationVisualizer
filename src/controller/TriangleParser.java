@@ -1,6 +1,13 @@
-package model;
+package controller;
 import java.io.BufferedReader;
 import java.util.Scanner;
+
+import model.Mutant;
+import model.MutantVizModel;
+import model.SourceClass;
+import model.Summary;
+import model.Test;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

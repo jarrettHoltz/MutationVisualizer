@@ -1,4 +1,7 @@
-package model;
+package controller;
+
+import model.MutantVizModel;
+
 /**
  * Generic Interface for the Mutant Visualizer controller
  * @author jaholtz

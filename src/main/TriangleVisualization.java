@@ -1,4 +1,7 @@
-package model;
+package main;
+
+import controller.TriangleParser;
+import model.TriangleModel;
 
 public class TriangleVisualization {
 

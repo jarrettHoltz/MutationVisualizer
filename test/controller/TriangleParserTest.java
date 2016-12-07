@@ -1,2 +1,2 @@
-package model;
+package controller;
 /* test for TriangleParser.java */
