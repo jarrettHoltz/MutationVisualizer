@@ -1,5 +1,6 @@
 package model;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Mutator objects contain the mutants created
@@ -8,25 +9,25 @@ import java.util.ArrayList;
  * @author jaholtz
  *
  */
-public class Mutator {
-	public String mutator_name;
-	public ArrayList<Integer> mutant_ids = new ArrayList<Integer>();
-	public Summary summary;
+public class Mutator extends SummaryNode {
+	public List<Mutant> mutants;
 	
 	/**
 	 * 
 	 * @param mutator_name
 	 */
 	public Mutator(String mutator_name) {
-		this.mutator_name = mutator_name;
+		name = mutator_name;
+		summary = new Summary(0, 0, 0, 0);
+		mutants = new ArrayList<Mutant>();
 	}
 	
 	/**
 	 * Adds mutants to the mutator
 	 * @param mutant
 	 */
-	public void AddMutant(int mutant) {
-		mutant_ids.add(mutant);
+	public void addMutant(Mutant mutant) {
+		mutants.add(mutant);
 	}
 	
 	/**
@@ -35,13 +36,12 @@ public class Mutator {
 	 * @param model to which this mutator object belongs
 	 * 
 	 */
-	public void UpdateSummary(MutantVizModel model) {
+	public void updateSummary(MutantVizModel model) {
 		int covered = 0;
 		int killed = 0;
 		int live = 0;
-		int total = mutant_ids.size();
-		for(int i : mutant_ids) {
-			Mutant mutant = model.GetMutant(i);
+		int total = mutants.size();
+		for(Mutant mutant : mutants) {
 			String status = mutant.status;
 			if (status.equals("LIVE")) {
 				live += 1;

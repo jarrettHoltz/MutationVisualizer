@@ -7,19 +7,17 @@ import java.util.ArrayList;
  * @author jaholtz
  *
  */
-public class SourceClass {
-	public Summary summary;
-	public String ClassName;
+public class SourceClass extends SummaryNode {
 	// Storage of entire code base
 	public String source;
-	public ArrayList<Integer> mutants = new ArrayList<Integer>();
+	public ArrayList<Integer> mutants;
 	
 	// Map of line# to mutant# or pointers to mutants
 	
 	// map of line# to test# or pointer to test 
 	
-	public SourceClass(String ClassName, String source_string, Summary summary) {
-		this.ClassName = ClassName;
+	public SourceClass(String className, String source_string, Summary summary) {
+		this.name = className;
 		this.source = source_string;
 		this.summary = summary;
 		this.mutants = new ArrayList<Integer>();
@@ -27,5 +25,9 @@ public class SourceClass {
 	
 	public void AddMutant(int mutant_id) {
 		mutants.add(mutant_id);
+	}
+	
+	public String toString() {
+		return name + ".java";
 	}
 }

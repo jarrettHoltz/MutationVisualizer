@@ -1,74 +1,112 @@
 package model;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 
 public class TriangleModel implements MutantVizModel {
-	private ArrayList<Mutant> mutants = new ArrayList<Mutant>();
-	private HashMap<String,SourceClass> sources = new HashMap<String, SourceClass>();
-	private ArrayList<Test> tests = new ArrayList<Test>();
-	private HashMap<String, Mutator> mutators = new HashMap<String, Mutator>();
+	private Map<String,SourceClass> sources;
+	private List<Test> tests;
+	private List<Mutant> mutants;
+	private Map<MutatorType, Mutator> mutators;
 	private Summary summary;
+	
+	/**
+	 * Trees containing the various source code files, tests, and mutants.
+	 * This is convenient for display by the View, but never needs to be recalculated,
+	 * and is technically just an alternate view-independent representation of the data.
+	 */
+	private TreeNode sourceRoot;
+	private TreeNode testRoot;
+	private TreeNode mutantRoot;
 	
 	/**
 	 * Constructor
 	 */
 	public TriangleModel() {
-		mutators.put("LVR", new Mutator("LVR"));
-		mutators.put("ROR", new Mutator("ROR"));
-		mutators.put("COR", new Mutator("COR"));
-		mutators.put("STD", new Mutator("STD"));
-		mutators.put("AOR", new Mutator("AOR"));
-	}
-	
-	@Override
-	public Summary GetSummary() {
-		return this.summary;
-	}
-
-	@Override
-	public void SetSummary(Summary summary) {
-		this.summary = summary;
-
-	}
-
-	@Override
-	public void AddMutant(Mutant mutant) {
-		mutants.add(mutant);
-		mutators.get(mutant.mutator).AddMutant(mutant.mutant_id);
-		SourceClass source = sources.get(mutant.class_name);
-		source.AddMutant(mutant.mutant_id);
-		if(!mutant.status.equals("LIVE")) {
-			mutant.AddTest(1);
-			tests.get(0).AddMutant(mutant.mutant_id);
+		mutants = new ArrayList<Mutant>();
+		sources = new HashMap<String,SourceClass>();
+		tests = new ArrayList<Test>();
+		mutators = new HashMap<MutatorType, Mutator>();
+		for(MutatorType type : MutatorType.values()) {
+			mutators.put(type, new Mutator(type.name()));
 		}
 	}
 	
 	@Override
-	public void AddTest(Test test) {
-		tests.add(test);
+	public Summary getSummary() {
+		return this.summary;
+	}
+
+	@Override
+	public void setSummary(Summary summary) {
+		this.summary = summary;
 	}
 
 	@Override
 	public void AddSource(SourceClass source) {
-		sources.put(source.ClassName, source);
+		sources.put(source.name, source);
+	}
+	
+	public void AddTest(Test test) {
+		tests.add(test);
 	}
 	
 	@Override
-	public Test GetTest(int test_id) {
-		return tests.get(test_id);
+	public void addMutant(Mutant mutant) {
+		mutants.add(mutant);
+		mutators.get(mutant.mutator).addMutant(mutant);
+		SourceClass source = sources.get(mutant.className);
+		source.AddMutant(mutant.mutantId);
+		if(!mutant.status.equals("LIVE")) {
+			//Assumes only one test
+			Test theTest = (Test) ((DefaultMutableTreeNode)testRoot.getChildAt(0).getChildAt(0)).getUserObject();
+			//Add tests that killed this mutant
+			mutant.AddTest(theTest);
+			//Add this mutant to tests that killed it
+			theTest.AddMutant(mutant);
+		}
 	}
 
 	@Override
-	public ArrayList<Integer> GetTests(int mutant_id) {
-		return mutants.get(mutant_id).tests;
+	public void setSourceRoot(TreeNode sourceRoot) {
+		this.sourceRoot = sourceRoot;
 	}
-
+	
 	@Override
-	public ArrayList<Integer> GetTests(String class_name, int line_num) {
-		ArrayList<Integer> temp_tests = new ArrayList<Integer>();
+	public TreeNode getSourceRoot() {
+		return sourceRoot;
+	}
+	
+	@Override
+	public void setTestRoot(TreeNode testRoot) {
+		this.testRoot = testRoot;
+	}
+	
+	@Override
+	public TreeNode getTestRoot() {
+		return testRoot;
+	}
+	
+	@Override
+	public void setMutantRoot(TreeNode mutantRoot) {
+		this.mutantRoot = mutantRoot;
+	}
+	
+	@Override
+	public TreeNode getMutantRoot() {
+		return mutantRoot;
+	}
+	
+	@Override
+	public List<Test> getTests(String class_name, int line_num) {
+		ArrayList<Test> temp_tests = new ArrayList<Test>();
 		for(Mutant mutant: this.mutants) {
-			if(mutant.class_name.equals(class_name) && mutant.line_number == line_num) {
+			if(mutant.className.equals(class_name) && mutant.lineNumber == line_num) {
 				temp_tests.addAll(mutant.tests);
 			}
 		}
@@ -76,15 +114,15 @@ public class TriangleModel implements MutantVizModel {
 	}
 
 	@Override
-	public Mutant GetMutant(int mutant_id) {
+	public Mutant getMutant(int mutant_id) {
 		return this.mutants.get(mutant_id - 1);
 	}
 
 	@Override
-	public ArrayList<Mutant> GetMutants(String class_name, int line_number) {
+	public List<Mutant> getMutants(String class_name, int line_number) {
 		ArrayList<Mutant> temp_muts = new ArrayList<Mutant>();
 		for(Mutant mutant : mutants) {
-			if(mutant.class_name.equals(class_name) && mutant.line_number == line_number) {
+			if(mutant.className.equals(class_name) && mutant.lineNumber == line_number) {
 				temp_muts.add(mutant);
 			}
 		}
@@ -92,34 +130,34 @@ public class TriangleModel implements MutantVizModel {
 	}
 
 	@Override
-	public ArrayList<Integer> GetMutants(int test_id) {
+	public List<Mutant> getMutants(int test_id) {
 		return tests.get(test_id).mutants;
 	}
 
 	@Override
-	public SourceClass GetSourceClass(String class_name) {
+	public SourceClass getSourceClass(String class_name) {
 		return sources.get(class_name);
 	}
 
 	@Override
-	public SourceClass GetSource(int mutant_id) {
-		return sources.get(mutants.get(mutant_id - 1).class_name);
+	public SourceClass getSource(int mutant_id) {
+		return sources.get(mutants.get(mutant_id - 1).className);
 	}
 	
 	@Override
-	public String GetLine(String class_name, int line) {
+	public String getLine(String class_name, int line) {
 		String source = sources.get(class_name).source;
 		String[] split = source.split("\\r?\\n");
 		return split[line];
 	}
 	
 	@Override
-	public Mutator GetMutator(String mutator) {
+	public Mutator getMutator(MutatorType mutator) {
 		return mutators.get(mutator);
 	}
 	
 	@Override
-	public Mutator GetMutator(int mutant_id) {
+	public Mutator getMutatorForMutant(int mutant_id) {
 		return mutators.get(mutants.get(mutant_id - 1).mutator);
 	}
 }

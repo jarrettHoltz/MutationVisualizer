@@ -1,4 +1,5 @@
 package model;
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -8,17 +9,22 @@ import java.util.ArrayList;
  * @author jaholtz
  *
  */
-public class Test {
+public class Test extends SummaryNode {
 	public String source;
-	public Summary summary;
-	public ArrayList<Integer> mutants = new ArrayList<Integer>();
+	public List<Mutant> mutants;
 	
-	public Test(String source, Summary summary) {
+	public Test(String testName, String source, Summary summary) {
+		this.name = testName;
 		this.source = source;
 		this.summary = summary;
+		this.mutants = new ArrayList<Mutant>();
 	}
 	
-	public void AddMutant(int mutant) {
+	public void AddMutant(Mutant mutant) {
 		mutants.add(mutant);
+	}
+	
+	public String toString() {
+		return name + ".java";
 	}
 }

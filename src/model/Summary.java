@@ -20,4 +20,8 @@ public class Summary {
 		this.live = live;
 		this.killed = killed;
 	}
+	
+	public boolean hasLive() {
+		return killed != total;
+	}
 }

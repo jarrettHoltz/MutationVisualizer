@@ -10,36 +10,40 @@ import java.util.ArrayList;
  *
  */
 public class Mutant {
-	public int mutant_id;
-	public String mutator;
+	public int mutantId;
+	public MutatorType mutator;
 	public String status;
-	public String class_name;
-	public String method_name;
-	public int line_number;
-	public String mutant_source;
-	public ArrayList<Integer> tests = new ArrayList<Integer>();
+	public String className;
+	public String methodName;
+	public int lineNumber;
+	public String mutantSource;
+	public ArrayList<Test> tests = new ArrayList<Test>();
 	
 	public Mutant(int mutant_id,
-			String mutator,
+			MutatorType mutator,
 			String class_name,
 			String method_name,
 			int line_number,
 			String mutant_source) {
 		
-		this.mutant_id = mutant_id;
+		this.mutantId = mutant_id;
 		this.mutator = mutator;
-		this.class_name = class_name;
-		this.method_name = method_name;
-		this.line_number = line_number;
-		this.mutant_source = mutant_source;
+		this.className = class_name;
+		this.methodName = method_name;
+		this.lineNumber = line_number;
+		this.mutantSource = mutant_source;
 		this.status = "unknown";
 	}
 	
 	/**
-	 * Adds a test id to the mutant
-	 * @param test_id
+	 * Adds a test to the mutant
+	 * @param test
 	 */
-	public void AddTest(int test_id) {
-		tests.add(test_id);
+	public void AddTest(Test test) {
+		tests.add(test);
+	}
+	
+	public String toString() {
+		return mutantId + " " + className + " (" + mutator + ") " + status;
 	}
 }
