@@ -5,13 +5,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import model.TheModel;
+import model.MutantVizModel;
 
 /**
  * Manages the view for browsing different visualizations of the mutations.
@@ -22,17 +22,13 @@ public class BrowserPanel extends JPanel
 	private static final long serialVersionUID = -4364720453828499850L;
 	private static final String PANEL_TITLE_PREFIX = "Browser";
 	private static final String PANEL_TITLE_GLUE = ": ";
-	private static final String SOURCE_TITLE = "Source";
-	private static final String TESTS_TITLE = "Tests";
-	private static final String MUTANTS_TITLE = "Mutants";
 	private JLabel panelTitle;
-	private JTree source, tests, mutants;
+	private JTree browserTree;
 	
-	public BrowserPanel() {
+	public BrowserPanel(MutantVizModel model) {
 		setBackground(Color.WHITE);
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		MutantTreeCellRenderer treeRenderer = new MutantTreeCellRenderer();
 		
 		panelTitle = new JLabel(PANEL_TITLE_PREFIX);
 		gbc.gridy = 0;
@@ -42,34 +38,23 @@ public class BrowserPanel extends JPanel
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		add(panelTitle, gbc);
 		
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode();
+		root.add((DefaultMutableTreeNode) model.getSourceRoot());
+		root.add((DefaultMutableTreeNode) model.getTestRoot());
+		root.add((DefaultMutableTreeNode) model.getMutantRoot());
+		
 		gbc.gridy = 1;
-		add(new JLabel(SOURCE_TITLE), gbc);
-		
+		browserTree = new JTree(root);
+		browserTree.setRootVisible(false);
+		browserTree.setCellRenderer(new MutantTreeCellRenderer());
+		for(int i = 2; i >= 0; i--) {
+			browserTree.expandRow(i);
+		}
+		add(browserTree, gbc);
+				
 		gbc.gridy = 2;
-		source = new JTree(TheModel.model.getSourceRoot());
-		source.setCellRenderer(treeRenderer);
-		add(source, gbc);
-		
-		gbc.gridy = 3;
-		add(new JLabel(TESTS_TITLE), gbc);
-		
-		gbc.gridy = 4;
-		tests = new JTree(TheModel.model.getTestRoot());
-		tests.setCellRenderer(treeRenderer);
-		add(tests, gbc);
-		
-		gbc.gridy = 5;
-		add(new JLabel(MUTANTS_TITLE), gbc);
-		
-		gbc.gridy = 6;
-		mutants = new JTree(TheModel.model.getMutantRoot());
-		mutants.setCellRenderer(treeRenderer);
-		add(mutants, gbc);
-		
-		gbc.gridy = 7;
 		gbc.weighty = 1;
 		add(new JLabel(""), gbc);
-		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 	}
 	
 	/**
@@ -78,5 +63,21 @@ public class BrowserPanel extends JPanel
 	 */
 	public void setProgram(String programName) {
 		panelTitle.setText(PANEL_TITLE_PREFIX + PANEL_TITLE_GLUE + programName);
+	}
+	
+	/**
+	 * Selects the default node: the root of the source code tree.
+	 * This will cause the view to build a view for the summary of that node.
+	 */
+	public void setDefaultSelection() {
+		browserTree.setSelectionRow(0);
+	}
+	
+	/**
+	 * Exposes the JTree's method for adding a selection listener.
+	 * @param listener The listener to add
+	 */
+	public void setTreeSelectionListener(TreeSelectionListener listener) {
+		browserTree.addTreeSelectionListener(listener);
 	}
 }

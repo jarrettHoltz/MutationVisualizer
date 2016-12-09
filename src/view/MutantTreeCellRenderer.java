@@ -3,7 +3,9 @@ package view;
 import java.awt.Color;
 import java.awt.Component;
 
+import javax.swing.BorderFactory;
 import javax.swing.JTree;
+import javax.swing.border.Border;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
@@ -17,6 +19,8 @@ public class MutantTreeCellRenderer extends DefaultTreeCellRenderer
 	private static final Color LIVE_COLOR_SELECTED = new Color(0xDD, 0x99, 0x99);
 	private static final Color DEAD_COLOR = new Color(0xBB, 0xFF, 0xBB);
 	private static final Color DEAD_COLOR_SELECTED = new Color(0x99, 0xDD, 0x99);
+	private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder();
+	private static final Border SPACY_BORDER = BorderFactory.createMatteBorder(20, 0, 5, 0, Color.white);
 	private Color default_color, default_color_selected;
 	
 	public MutantTreeCellRenderer() {
@@ -39,23 +43,24 @@ public class MutantTreeCellRenderer extends DefaultTreeCellRenderer
 				else {
 					setDeadColor();
 				}
-			}
-			else if(contents instanceof SummaryNode) {
+			} else if(contents instanceof SummaryNode) { //This is a node that can be summarized as having live mutants or not
 				SummaryNode sumNode = (SummaryNode) contents;
 				if(sumNode.summary.hasLive()) {
 					//There are some mutants still alive under this node, so color it to show that
 					setLiveColor();
-				}
-				else {
+				} else {
 					//All mutants under this have been killed, yay!
 					setDeadColor();
 				}
-			}
-			else //this shouldn't happen, but it wouldn't be terrible if it did
+			} else //This node isn't summarizeable? This shouldn't happen, but it wouldn't be terrible if it did
 			{
-				System.out.println(contents.getClass());
-				System.out.println(contents);
 				setDefaultColor();
+			}
+			//Add some extra spacing to the top-level nodes (just under the root)
+			if(node.getParent().getParent() == null) {
+				setBorder(SPACY_BORDER);
+			} else {
+				setBorder(EMPTY_BORDER);
 			}
 		}
 		return comp;

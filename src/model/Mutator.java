@@ -37,16 +37,15 @@ public class Mutator extends SummaryNode {
 	 * 
 	 */
 	public void updateSummary(MutantVizModel model) {
-		int covered = 0;
 		int killed = 0;
 		int live = 0;
 		int total = mutants.size();
+		int covered = total; //This information is not made available, but summary seems to suggest all should be covered
 		for(Mutant mutant : mutants) {
 			String status = mutant.status;
 			if (status.equals("LIVE")) {
 				live += 1;
 			} else {
-				covered += 1;
 				killed += 1;
 			}
 			this.summary = new Summary(total, covered, live, killed);
