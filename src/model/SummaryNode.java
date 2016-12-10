@@ -6,10 +6,31 @@ package model;
  */
 public abstract class SummaryNode
 {
-	public Summary summary;
-	public String name;
+	private Summary summary;
+	private String name;
 	
 	public String toString() {
-		return name;
+		return this.name;
 	}
+
+
+	//Accessors
+	public Summary getSummary(){
+		return this.summary;
+	}
+
+	public String getName(){
+		return this.name;
+	}
+
+
+	//Mutators
+	public void setSummary(Summary newSummary){
+		this.summary = newSummary;
+	}
+
+	public void setName(String newName){
+		this.name = newName;
+	}
+
 }
