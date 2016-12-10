@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 public class SourceClass extends SummaryNode {
 	// Storage of entire code base
-	public String source;
-	public ArrayList<Integer> mutants;
+	private String source;
+	private ArrayList<Integer> mutants;
 	
 	// Map of line# to mutant# or pointers to mutants
 	
@@ -30,4 +30,26 @@ public class SourceClass extends SummaryNode {
 	public String toString() {
 		return name + ".java";
 	}
+
+
+	//Accessors
+	public String getSource(){
+		return this.source;
+	}
+
+	public ArrayList<Integer> getMutants(){
+		return this.mutants;
+	}
+
+
+	//Mutators
+	public void setSource(String newSource){
+		this.source = newSource;
+	}
+
+	public void setMutants(ArrayList<Integer> newMutants){
+		return this.mutants = newMutants;
+	}
+
+
 }
