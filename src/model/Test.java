@@ -10,8 +10,8 @@ import java.util.ArrayList;
  *
  */
 public class Test extends SummaryNode {
-	public String source;
-	public List<Mutant> mutants;
+	private String source;
+	private List<Mutant> mutants;
 	
 	public Test(String testName, String source, Summary summary) {
 		this.name = testName;
@@ -27,4 +27,25 @@ public class Test extends SummaryNode {
 	public String toString() {
 		return name + ".java";
 	}
+
+
+		//Accessors
+	public String getSource(){
+		return this.source;
+	}
+
+	public List<Mutant> getMutants(){
+		return this.mutants;
+	}
+
+
+	//Mutators
+	public void setSource(String newSource){
+		this.source = newSource;
+	}
+
+	public void setMutants(List<Mutant> newMutants){
+		return this.mutants = newMutants;
+	}
+
 }
