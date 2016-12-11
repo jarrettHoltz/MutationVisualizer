@@ -148,7 +148,8 @@ public class TriangleParser implements MutantVizController{
 					
 				} else {
 					Mutant mutant = model.getMutant(Integer.parseInt(line_split[0]));
-					mutant.status = line_split[1];
+					mutant.setStatus(line_split[1]);
+					//mutant.status = line_split[1];
 				}
 			}
 		} catch (FileNotFoundException e) {

@@ -48,7 +48,7 @@ public class SourceClass extends SummaryNode {
 	}
 
 	public void setMutants(ArrayList<Integer> newMutants){
-		return this.mutants = newMutants;
+		this.mutants = newMutants;
 	}
 
 

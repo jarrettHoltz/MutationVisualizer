@@ -66,7 +66,7 @@ public class Mutant {
 	}
 
 	public String getMethodName(){
-		return this.method_name;
+		return this.methodName;
 	}
 
 	public int getLineNumber(){
@@ -101,7 +101,7 @@ public class Mutant {
 	}
 
 	public void setMethodName(String newMethodName){
-		this.method_name = newMethodName;
+		this.methodName = newMethodName;
 	}
 
 	public void setLineNumber(int newLineNumber){

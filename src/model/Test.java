@@ -45,7 +45,7 @@ public class Test extends SummaryNode {
 	}
 
 	public void setMutants(List<Mutant> newMutants){
-		return this.mutants = newMutants;
+		this.mutants = newMutants;
 	}
 
 }

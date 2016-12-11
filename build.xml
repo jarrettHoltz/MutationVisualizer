@@ -1,0 +1,39 @@
+<project name="MutationVisualizer" default="compile" basedir=".">
+
+<description>
+    Build file for our Mutator Visualizer.
+</description>
+
+<!-- Path to src code -->
+    <property name="src" value="src"/>
+    <property name="controller" value="src/controller"/>
+    <property name="main" value="src/main"/>
+    <property name="model" value="src/model"/>
+    <property name="view" value="src/view"/>
+
+<!-- Target to initialize build -->
+    <target name="init">
+        <mkdir dir="bin"/>
+    </target>
+
+<!-- Target to clean up -->
+    <target name="clean" description="Clean">
+        <delete dir="bin"/>
+    </target>
+
+<!-- Target to compile the project -->
+    <target name="compile" depends="init" description="Compile">
+        <javac includeantruntime="true"
+               srcdir="${src}"
+               destdir="bin"
+               source="1.7"
+               target="1.7"
+             compiler="javac1.7"
+               nowarn="true"
+                debug="yes">
+        </javac>
+    </target>
+
+
+
+</project>

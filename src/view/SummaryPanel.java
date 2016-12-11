@@ -60,10 +60,14 @@ public class SummaryPanel extends JPanel {
 		double[] sections;
 		String[] labels;
 		if(obj instanceof SummaryNode) {
-			Summary s = ((SummaryNode)obj).summary;
-			double total = s.total;
-			sections = new double[]{s.killed/total, (s.covered - s.killed)/total, (s.total - s.covered)/total};
-			labels = new String[]{"Killed: " + s.killed, "Live (covered): " + (s.covered - s.killed), "Live (uncovered): " + (s.total - s.covered)};
+			//Summary s = ((SummaryNode)obj).summary;
+			Summary s = ((SummaryNode)obj).getSummary();
+			//double total = s.total;
+			double total = s.getTotal();
+			//sections = new double[]{s.killed/total, (s.covered - s.killed)/total, (s.total - s.covered)/total};
+			sections = new double[]{s.getKilled()/total, (s.getCovered() - s.getKilled())/total, (s.getTotal() - s.getCovered())/total};
+			//labels = new String[]{"Killed: " + s.killed, "Live (covered): " + (s.covered - s.killed), "Live (uncovered): " + (s.total - s.covered)};
+			labels = new String[]{"Killed: " + s.getKilled(), "Live (covered): " + (s.getCovered() - s.getKilled()), "Live (uncovered): " + (s.getTotal() - s.getCovered())};
 		} else {
 			//TODO: throw exception?
 			return;

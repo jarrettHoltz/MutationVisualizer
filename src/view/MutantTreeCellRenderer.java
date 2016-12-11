@@ -37,7 +37,8 @@ public class MutantTreeCellRenderer extends DefaultTreeCellRenderer
 			Object contents = node.getUserObject();
 			if(contents instanceof Mutant) {
 				Mutant mutant = (Mutant) contents;
-				if(mutant.status.equals("LIVE")) {
+				//if(mutant.status.equals("LIVE")) {
+				if(mutant.getStatus().equals("LIVE")) {
 					setLiveColor();
 				}
 				else {
@@ -45,7 +46,8 @@ public class MutantTreeCellRenderer extends DefaultTreeCellRenderer
 				}
 			} else if(contents instanceof SummaryNode) { //This is a node that can be summarized as having live mutants or not
 				SummaryNode sumNode = (SummaryNode) contents;
-				if(sumNode.summary.hasLive()) {
+				//if(sumNode.summary.hasLive()) {
+				if(sumNode.getSummary().hasLive()) {
 					//There are some mutants still alive under this node, so color it to show that
 					setLiveColor();
 				} else {
