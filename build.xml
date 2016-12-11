@@ -6,10 +6,7 @@
 
 <!-- Path to src code -->
     <property name="src" value="src"/>
-    <property name="controller" value="src/controller"/>
-    <property name="main" value="src/main"/>
-    <property name="model" value="src/model"/>
-    <property name="view" value="src/view"/>
+    <property name="test" value="test"/>
 
 <!-- Target to initialize build -->
     <target name="init">
@@ -34,6 +31,37 @@
         </javac>
     </target>
 
+<!-- Target to compile the test suite -->
+    <target name="compile.tests" depends="compile" description="Compile all tests">
+        <javac includeantruntime="true"
+               srcdir="${test}"
+              destdir="bin"
+               source="1.7"
+               target="1.7"
+             compiler="javac1.7"
+               nowarn="true"
+                debug="yes">
+                <classpath location="lib/junit-4.11.jar"/>
+        </javac>
+    </target>
 
+<!-- The original test target -->
+    <target name="test" depends="compile.tests" description="Run all unit test cases">
+        <echo message="Running unit tests ..."/>
+        <junit  printsummary="true"
+                  showoutput="true"
+                        fork="true"
+               haltonfailure="false">
+            <formatter type="plain" usefile="false"/>
+            <classpath path="bin"/>
+            <classpath location="lib/junit-4.11.jar"/>
+
+            <batchtest fork="true">
+                <fileset dir="test">
+                    <include name="**/*Test*.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
 
 </project>
