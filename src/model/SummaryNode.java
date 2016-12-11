@@ -29,8 +29,8 @@ public abstract class SummaryNode
 		this.summary = newSummary;
 	}
 
-	public void setName(String newName){
-		this.name = newName;
-	}
+	// public void setName(String newName){
+	// 	this.name = newName;
+	// }
 
 }

@@ -43,13 +43,13 @@ public class SourceClass extends SummaryNode {
 
 
 	//Mutators
-	public void setSource(String newSource){
-		this.source = newSource;
-	}
+	// public void setSource(String newSource){
+	// 	this.source = newSource;
+	// }
 
-	public void setMutants(ArrayList<Integer> newMutants){
-		this.mutants = newMutants;
-	}
+	// public void setMutants(ArrayList<Integer> newMutants){
+	// 	this.mutants = newMutants;
+	// }
 
 
 }

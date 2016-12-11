@@ -45,20 +45,20 @@ public class Summary {
 
 
 	//Mutators
-	public void setTotal(int newTotal){
-		this.total = newTotal;
-	}
+	// public void setTotal(int newTotal){
+	// 	this.total = newTotal;
+	// }
 
-	public void setCovered(int newCovered){
-		this.covered = newCovered;
-	}
+	// public void setCovered(int newCovered){
+	// 	this.covered = newCovered;
+	// }
 
-	public void setLive(int newLive){
-		this.live = newLive;
-	}
+	// public void setLive(int newLive){
+	// 	this.live = newLive;
+	// }
 
-	public void setKilled(int newKilled){
-		this.killed = newKilled;
-	}
+	// public void setKilled(int newKilled){
+	// 	this.killed = newKilled;
+	// }
 
 }

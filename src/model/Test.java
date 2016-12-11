@@ -40,12 +40,12 @@ public class Test extends SummaryNode {
 
 
 	//Mutators
-	public void setSource(String newSource){
-		this.source = newSource;
-	}
+	// public void setSource(String newSource){
+	// 	this.source = newSource;
+	// }
 
-	public void setMutants(List<Mutant> newMutants){
-		this.mutants = newMutants;
-	}
+	// public void setMutants(List<Mutant> newMutants){
+	// 	this.mutants = newMutants;
+	// }
 
 }

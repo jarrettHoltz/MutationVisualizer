@@ -59,8 +59,8 @@ public class Mutator extends SummaryNode {
 	}
 
 	//Mutator
-	public void setMutants(List<Mutant> newMutants){
-		this.mutants = newMutants;
-	}
+	// public void setMutants(List<Mutant> newMutants){
+	// 	this.mutants = newMutants;
+	// }
 
 }

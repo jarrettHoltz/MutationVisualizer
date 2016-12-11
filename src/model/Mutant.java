@@ -77,44 +77,44 @@ public class Mutant {
 		return this.mutantSource;
 	}
 
-	public ArrayList<Test> getTests(){
+	public ArrayList<Test> getMutatorTests(){
 		return this.tests;
 	}
 
 
 
 	//Mutators
-	public void setMutantId(int newMutantId){
-		this.mutantId = newMutantId;
-	}
+	// public void setMutantId(int newMutantId){
+	// 	this.mutantId = newMutantId;
+	// }
 
-	public void setMutator(MutatorType newMutator){
-		this.mutator = newMutator;
-	}
+	// public void setMutator(MutatorType newMutator){
+	// 	this.mutator = newMutator;
+	// }
 
-	public void setStatus(String newStatus){
-		this.status = newStatus;
-	}
+	// public void setStatus(String newStatus){
+	// 	this.status = newStatus;
+	// }
 
-	public void setClassName(String newClassName){
-		this.className = newClassName;
-	}
+	// public void setClassName(String newClassName){
+	// 	this.className = newClassName;
+	// }
 
-	public void setMethodName(String newMethodName){
-		this.methodName = newMethodName;
-	}
+	// public void setMethodName(String newMethodName){
+	// 	this.methodName = newMethodName;
+	// }
 
-	public void setLineNumber(int newLineNumber){
-		this.lineNumber = newLineNumber;
-	}
+	// public void setLineNumber(int newLineNumber){
+	// 	this.lineNumber = newLineNumber;
+	// }
 
-	public void setMutantSource(String newMutantSource){
-		this.mutantSource = newMutantSource;
-	}
+	// public void setMutantSource(String newMutantSource){
+	// 	this.mutantSource = newMutantSource;
+	// }
 
-	public void setTests(ArrayList<Test> newTests){
-		this.tests = newTests;
-	}
+	// public void setTests(ArrayList<Test> newTests){
+	// 	this.tests = newTests;
+	// }
 
 
 }
