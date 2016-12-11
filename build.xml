@@ -51,7 +51,7 @@
         <junit  printsummary="true"
                   showoutput="true"
                         fork="true"
-               haltonfailure="true">
+               haltonfailure="false">
             <formatter type="plain" usefile="false"/>
             <classpath path="bin"/>
             <classpath location="lib/junit-4.11.jar"/>
