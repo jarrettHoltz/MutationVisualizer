@@ -10,14 +10,14 @@ import java.util.ArrayList;
  *
  */
 public class Mutant {
-	public int mutantId;
-	public MutatorType mutator;
-	public String status;
-	public String className;
-	public String methodName;
-	public int lineNumber;
-	public String mutantSource;
-	public ArrayList<Test> tests = new ArrayList<Test>();
+	private int mutantId;
+	private MutatorType mutator;
+	private String status;
+	private String className;
+	private String methodName;
+	private int lineNumber;
+	private String mutantSource;
+	private ArrayList<Test> tests = new ArrayList<Test>();
 	
 	public Mutant(int mutant_id,
 			MutatorType mutator,
@@ -46,4 +46,75 @@ public class Mutant {
 	public String toString() {
 		return mutantId + " " + className + " (" + mutator + ") " + status;
 	}
+
+
+	//Accessors
+	public int getMutantId(){
+		return this.mutantId;
+	}
+
+	public MutatorType getMutator(){
+		return this.mutator;
+	}
+
+	public String getStatus(){
+		return this.status;
+	}
+
+	public String getClassName(){
+		return this.className;
+	}
+
+	public String getMethodName(){
+		return this.method_name;
+	}
+
+	public int getLineNumber(){
+		return this.lineNumber;
+	}
+
+	public String getMutantSource(){
+		return this.mutantSource;
+	}
+
+	public ArrayList<Test> getTests(){
+		return this.tests
+	}
+
+
+
+	//Mutators
+	public void setMutantId(int newMutantId){
+		this.mutantId = newMutantId;
+	}
+
+	public void setMutator(MutatorType newMutator){
+		this.mutator = newMutator;
+	}
+
+	public void setStatus(String newStatus){
+		this.status newStatus;
+	}
+
+	public void setClassName(String newClassName){
+		this.className = newClassName;
+	}
+
+	public void setMethodName(String newMethodName){
+		this.method_name = newMethodName;
+	}
+
+	public void setLineNumber(int newLineNumber){
+		this.lineNumber = newLineNumber;
+	}
+
+	public void setMutantSource(String newMutantSource){
+		this.mutantSource = newMutantSource;
+	}
+
+	public void setTests(ArrayList<Test> newTests){
+		this.tests = newTests;
+	}
+
+
 }
