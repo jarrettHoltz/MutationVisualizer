@@ -6,8 +6,8 @@ package model;
  */
 public abstract class SummaryNode
 {
-	private Summary summary;
-	private String name;
+	protected Summary summary;
+	protected String name;
 	
 	public String toString() {
 		return this.name;
