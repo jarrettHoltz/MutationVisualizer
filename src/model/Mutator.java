@@ -10,7 +10,7 @@ import java.util.List;
  *
  */
 public class Mutator extends SummaryNode {
-	public List<Mutant> mutants;
+	private List<Mutant> mutants;
 	
 	/**
 	 * 
@@ -51,4 +51,15 @@ public class Mutator extends SummaryNode {
 			this.summary = new Summary(total, covered, live, killed);
 		}
 	}
+
+	//Accessor
+	public List<Mutant> getMutants(){
+		return this.mutants;
+	}
+
+	//Mutator
+	public void setMutants(List<Mutant> newMutants){
+		this.mutants = newMutants;
+	}
+
 }
