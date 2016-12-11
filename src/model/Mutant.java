@@ -78,7 +78,7 @@ public class Mutant {
 	}
 
 	public ArrayList<Test> getTests(){
-		return this.tests
+		return this.tests;
 	}
 
 
@@ -93,7 +93,7 @@ public class Mutant {
 	}
 
 	public void setStatus(String newStatus){
-		this.status newStatus;
+		this.status = newStatus;
 	}
 
 	public void setClassName(String newClassName){
