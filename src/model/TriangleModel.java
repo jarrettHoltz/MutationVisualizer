@@ -113,7 +113,7 @@ public class TriangleModel implements MutantVizModel {
 			//if(mutant.className.equals(class_name) && mutant.lineNumber == line_num) {
 			if(mutant.getClassName().equals(class_name) && mutant.getLineNumber() == line_num) {
 				//temp_tests.addAll(mutant.tests);
-				temp_tests.addAll(mutant.getTests());
+				temp_tests.addAll(mutant.getMutatorTests());
 			}
 		}
 		return temp_tests;

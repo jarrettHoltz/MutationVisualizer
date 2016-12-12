@@ -11,6 +11,7 @@
 <!-- Target to initialize build -->
     <target name="init">
         <mkdir dir="bin"/>
+        <mkdir dir="bin/classes"/>
     </target>
 
 <!-- Target to clean up -->
@@ -18,11 +19,36 @@
         <delete dir="bin"/>
     </target>
 
+
+
+
+
+
+
+<!-- Target to build jar file -->
+    <target name="jar">
+        <mkdir dir="bin/jar"/>
+        <jar destfile="bin/jar/TriangleVisualization.jar" basedir="bin/classes">
+            <manifest>
+                <attribute name="Main-Class" value="main.TriangleVisualization"/>
+            </manifest>
+        </jar>
+    </target>
+
+<!-- Target to run the program -->
+    <target name="run" depends="jar" description="Run the program">
+        <java jar="bin/jar/TriangleVisualization.jar" fork="true"/>
+    </target>
+
+
+
+
+
 <!-- Target to compile the project -->
     <target name="compile" depends="init" description="Compile">
         <javac includeantruntime="true"
                srcdir="${src}"
-               destdir="bin"
+               destdir="bin/classes"
                source="1.7"
                target="1.7"
              compiler="javac1.7"

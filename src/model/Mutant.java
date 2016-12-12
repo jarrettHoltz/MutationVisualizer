@@ -92,9 +92,9 @@ public class Mutant {
 	// 	this.mutator = newMutator;
 	// }
 
-	// public void setStatus(String newStatus){
-	// 	this.status = newStatus;
-	// }
+	public void setStatus(String newStatus){
+		this.status = newStatus;
+	}
 
 	// public void setClassName(String newClassName){
 	// 	this.className = newClassName;
