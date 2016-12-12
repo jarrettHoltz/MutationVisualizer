@@ -19,12 +19,6 @@
         <delete dir="bin"/>
     </target>
 
-
-
-
-
-
-
 <!-- Target to build jar file -->
     <target name="jar">
         <mkdir dir="bin/jar"/>
@@ -39,10 +33,6 @@
     <target name="run" depends="jar" description="Run the program">
         <java jar="bin/jar/TriangleVisualization.jar" fork="true"/>
     </target>
-
-
-
-
 
 <!-- Target to compile the project -->
     <target name="compile" depends="init" description="Compile">
@@ -61,7 +51,7 @@
     <target name="compile.tests" depends="compile" description="Compile all tests">
         <javac includeantruntime="true"
                srcdir="${test}"
-              destdir="bin"
+              destdir="bin/classes"
                source="1.7"
                target="1.7"
              compiler="javac1.7"
