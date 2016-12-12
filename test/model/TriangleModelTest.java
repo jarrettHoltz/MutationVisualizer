@@ -12,13 +12,14 @@ import java.util.ArrayList;
 public class TriangleModelTest {
 
     /*
-     * Test the 
+     * Test the Contructor
      */
     @Test
-    public void test1() {
-        // Type actual = Triangle.classify(1, 1, 1);
-        // Type expected = EQUILATERAL;
-        // assertEquals (expected, actual);
-        assert(true);
+    public void testConstructor() {
+        
+        //Initialize the TriangleModel
+        TriangleModel tm = new TriangleModel();
+
+        //
     }
 }

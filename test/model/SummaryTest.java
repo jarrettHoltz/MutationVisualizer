@@ -12,13 +12,45 @@ import java.util.ArrayList;
 public class SummaryTest {
 
     /*
-     * Test the 
+     * Test the Constructor
      */
     @Test
-    public void test1() {
-        // Type actual = Triangle.classify(1, 1, 1);
-        // Type expected = EQUILATERAL;
-        // assertEquals (expected, actual);
-        assert(true);
+    public void testConstructor() {
+
+        //Initialize the Summary Object
+        Summary actualSummary = new Summary(0,1,2,3);
+
+        //Check Total
+        int expectedTotal = 0;
+        assertEquals(expectedTotal, actualSummary.getTotal());
+        
+        //Check Covered
+        int expectedCovered = 1;
+        assertEquals(expectedCovered, actualSummary.getCovered());
+        
+        //Check Live
+        int expectedLive = 2;
+        assertEquals(expectedLive, actualSummary.getLive());
+        
+        //Check Killed
+        int expectedKilled = 3;
+        assertEquals(expectedKilled, actualSummary.getKilled());
+    }
+
+    @Test
+    public void testHasLive() {
+
+        //Initialize the Summary Object
+        Summary s = new Summary(4,1,2,3);
+
+        //Check True case
+        boolean expectedHasLive = true;
+        boolean actualHasLive = s.hasLive();
+        assertEquals(expectedHasLive, actualHasLive);
+
+        s = new Summary(3,1,2,3);
+        expectedHasLive = false;
+        actualHasLive = s.hasLive();
+        assertEquals(expectedHasLive, actualHasLive);
     }
 }

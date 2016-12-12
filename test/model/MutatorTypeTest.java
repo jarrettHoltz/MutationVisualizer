@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import static model.MutatorType.*;
+
 /**
  * Test class for the MutatorType implementation.
  * @author mlimbird
@@ -12,13 +14,30 @@ import java.util.ArrayList;
 public class MutatorTypeTest {
 
     /*
-     * Test the 
+     * Test the Enum MutatorType
      */
     @Test
-    public void test1() {
-        // Type actual = Triangle.classify(1, 1, 1);
-        // Type expected = EQUILATERAL;
-        // assertEquals (expected, actual);
-        assert(true);
+    public void testLVR() {
+        assertNotNull(MutatorType.valueOf("LVR"));
+    }
+
+    @Test
+    public void testROR() {
+        assertNotNull(MutatorType.valueOf("ROR"));
+    }
+
+    @Test
+    public void testCOR() {
+        assertNotNull(MutatorType.valueOf("COR"));
+    }
+
+    @Test
+    public void testSTD() {
+        assertNotNull(MutatorType.valueOf("STD"));
+    }
+
+    @Test
+    public void testAOR() {
+        assertNotNull(MutatorType.valueOf("AOR"));
     }
 }

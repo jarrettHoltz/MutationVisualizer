@@ -6,6 +6,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static model.MutatorType.*;
+
 /**
  * Test class for the Mutator implementation.
  * @author mlimbird
@@ -28,8 +30,12 @@ public class MutatorTest {
 
         //Check the Summary
         Summary actualSummary = m.getSummary();
-        String expectedSummary = new Summary(0,0,0,0);
-        assertEquals(expectedSummary, actualSummary);
+        Summary expectedSummary = new Summary(0,0,0,0);
+        //need to check the total, covered, live, and killed of both summaries
+        assertEquals(expectedSummary.getTotal(), actualSummary.getTotal());
+        assertEquals(expectedSummary.getCovered(), actualSummary.getCovered());
+        assertEquals(expectedSummary.getLive(), actualSummary.getLive());
+        assertEquals(expectedSummary.getKilled(), actualSummary.getKilled());
 
         //Check the Mutants
         List<Mutant> actualMutants = m.getMutants();
@@ -48,7 +54,7 @@ public class MutatorTest {
 
         //Check adding the mutant
         mt.addMutant(m);
-        List<Mutant> actualMutants = m.getMutants();
+        List<Mutant> actualMutants = mt.getMutants();
         List<Mutant> expectedMutants = new ArrayList<Mutant>();
         expectedMutants.add(m);
         assertEquals(expectedMutants, actualMutants);
@@ -68,13 +74,12 @@ public class MutatorTest {
         TriangleModel triMod = new TriangleModel();
 
         //Check the updateSummary without adding mutant
-        m.updateSummary(triMod);
+        mt.updateSummary(triMod);
 
 
 
         //Check the updateSummary with a new mutant
         mt.addMutant(m);
-        assert(false);
 
     }
 
