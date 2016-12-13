@@ -18,6 +18,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import model.Mutant;
 import model.MutantVizModel;
 import model.SourceClass;
+import model.SourceCode;
 import model.Test;
 
 /**
@@ -35,7 +36,8 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 	private BrowserPanel browserPanel;
 	private SummaryPanel summaryPanel;
 	private CodePanel codePanel;
-	private ComparePanel comparePanel;
+	private JScrollPane codeScrollPane;
+	private CodePanel comparePanel;
 	
 	/**
 	 * These constraints hold the default layout parameters,
@@ -85,7 +87,9 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		browserPanel.setTreeSelectionListener(this);
 		summaryPanel = new SummaryPanel();
 		codePanel = new CodePanel(model);
-		comparePanel = new ComparePanel();
+		codeScrollPane = new JScrollPane(codePanel);
+		codeScrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		comparePanel = new CodePanel(model);
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.BOTH;
@@ -118,17 +122,22 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		return button;
 	}
 	
-	Object curNode;
 	public void setNode(DefaultMutableTreeNode node) {
 		summaryPanel.buildSummaryForNode(node);
-		curNode = node.getUserObject();
-		boolean hasCode = curNode instanceof SourceClass || curNode instanceof Test || curNode instanceof Mutant;
-		setSummaryView(hasCode);
-		/*
-		 */
-		System.out.println("SC: " + (curNode instanceof SourceClass));
-		System.out.println("Test: " + (curNode instanceof Test));
-		System.out.println("Mutant: " + (curNode instanceof Mutant));
+		Object contents = node.getUserObject();
+		boolean hasCode = contents instanceof SourceCode;
+		if(hasCode) {
+			codePanel.addSource((SourceCode)contents);
+			codePanel.packSource();
+			codePanel.setTitle(contents.toString());
+			setCodeView();
+		}
+		else {
+			setSummaryView(hasCode);
+		}
+		System.out.println("SC: " + (contents instanceof SourceClass));
+		System.out.println("Test: " + (contents instanceof Test));
+		System.out.println("Mutant: " + (contents instanceof Mutant));
 		
 	}
 
@@ -136,7 +145,7 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 	public void actionPerformed(ActionEvent e)
 	{
 		String command = e.getActionCommand();
-		System.out.println(command);
+		System.out.println("Button pressed: " + command);
 		if(command == EXPAND_CODE) {
 			setCodeView();
 		} else if(command == EXPAND_SUMMARY) {
@@ -158,16 +167,16 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		gbc.gridx = 1;
 		gbc.weighty = 1;
 		// make sure codePanel knows what it's working with
-		codePanel.registerObject(curNode);
+//		codePanel.addSource(curNode);
 		//System.out.println(((SourceClass) curNode).getSource());
-		add(codePanel, gbc);
+		add(codeScrollPane, gbc);
 		
 		validate();
 		repaint();
 	}
 	
 	private void setSummaryView(boolean hasCode) {
-		remove(codePanel);
+		remove(codeScrollPane);
 		remove(collapsedSummaryPanel);
 		
 		gbc.gridy = 0;
@@ -189,6 +198,11 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 	}
 
 	@Override
+	/**
+	 * React to a selection being made in the browser;
+	 * Updates the view to something relevant to that node, for example
+	 * a view of the code, or a summary of the folder.
+	 */
 	public void valueChanged(TreeSelectionEvent e)
 	{
 		setNode((DefaultMutableTreeNode) e.getPath().getLastPathComponent());

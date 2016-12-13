@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author jaholtz
  *
  */
-public class Mutant {
+public class Mutant implements SourceCode {
 	private int mutantId;
 	private MutatorType mutator;
 	private String status;
@@ -73,7 +73,7 @@ public class Mutant {
 		return this.lineNumber;
 	}
 
-	public String getMutantSource(){
+	public String getSource(){
 		return this.mutantSource;
 	}
 

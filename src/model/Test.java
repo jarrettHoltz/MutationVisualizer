@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author jaholtz
  *
  */
-public class Test extends SummaryNode {
+public class Test extends SummaryNode implements SourceCode {
 	private String source;
 	private List<Mutant> mutants;
 	
@@ -30,6 +30,7 @@ public class Test extends SummaryNode {
 
 
 	//Accessors
+	@Override
 	public String getSource(){
 		return this.source;
 	}

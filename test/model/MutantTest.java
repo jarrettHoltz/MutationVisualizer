@@ -49,7 +49,7 @@ public class MutantTest {
         assertEquals(expectedLine, actualLine);
 
         //Check Mutant Source
-        String actualSource = m.getMutantSource();
+        String actualSource = m.getSource();
         String expectedSource = "newSource";
         assertEquals(expectedSource, actualSource);
 

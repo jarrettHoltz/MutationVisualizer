@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author jaholtz
  *
  */
-public class SourceClass extends SummaryNode {
+public class SourceClass extends SummaryNode implements SourceCode {
 	// Storage of entire code base
 	private String source;
 	private ArrayList<Integer> mutants;
@@ -27,12 +27,14 @@ public class SourceClass extends SummaryNode {
 		mutants.add(mutant_id);
 	}
 	
+	@Override
 	public String toString() {
 		return name + ".java";
 	}
 
 
 	//Accessors
+	@Override
 	public String getSource(){
 		return this.source;
 	}
