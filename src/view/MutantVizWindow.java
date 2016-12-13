@@ -141,7 +141,7 @@ public class MutantVizWindow extends JFrame
 		remove(summaryPanel);
 		remove(collapsedCodePanel);
 		remove(comparePanel);
-//		if(mutantByLine != null) remove(mutantByLine);
+		
 		gbc.gridy = 0;
 		gbc.gridwidth = 2;
 		gbc.weightx = 1;
@@ -165,7 +165,6 @@ public class MutantVizWindow extends JFrame
 		remove(codeScrollPane);
 		remove(collapsedSummaryPanel);
 		remove(comparePanel);
-//		if(mutantByLine != null) remove(mutantByLine);
 		
 		gbc.gridy = 0;
 		gbc.gridx = 1;
@@ -185,17 +184,11 @@ public class MutantVizWindow extends JFrame
 		repaint();
 	}
 	
-//	private JPanel mutantByLine;
+
 	public void setComparison(CodeLine source) {
-		//TODO: Set up the comparison panel with the targets of this CodeLine
-		
-//		if(mutantByLine != null) remove(mutantByLine);
-		
-//		mutantByLine = new CodePanel(model, "Mutation");
-//		mutantByLine.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
 		int mutantLineNum = source.getLineNumber();
 		//TODO: make name not hard-coded
-		
 		List<Mutant> mutants = model.getMutants("Triangle", mutantLineNum);
 		
 		if(!mutants.isEmpty()){

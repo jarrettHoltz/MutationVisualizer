@@ -98,7 +98,34 @@ public class CodePanel extends JPanel
 					codeLines[i].setOpaque(true);					
 				}
 			}
+		} else
+		if(code instanceof Mutant){
+			add(new JLabel(" "), gbc); // empty JLabel for space
+			gbc.gridy++;
+			add(new JLabel("Mutation in code"), gbc);
+			gbc.gridy++;
+			Mutant m = (Mutant) code;
+			String[] text_code = m.getFullSource().split("\n"); 
+			CodeLine m_click = new CodeLine(text_code[m.getLineNumber()-1], m.getLineNumber(), maxLines);
+			for(int i = 0; i < text_code.length; i++) {
+				if(i ==((Mutant) code).getLineNumber() - 1){
+					add(m_click, gbc);
+				} else {
+					add(new CodeLine(text_code[i], i+1, maxLines), gbc);
+				}
+				gbc.gridy++;
+			}
+			MutantStatus status = m.getStatus();
+			if(status == MutantStatus.LIVE) {
+				m_click.setBackground(MutantColor.getColor(ColorContext.HIGHLIGHT, MutantStatus.LIVE));
+			} else if(status != MutantStatus.LIVE) {
+				m_click.setBackground(MutantColor.getColor(ColorContext.HIGHLIGHT, MutantStatus.FAIL));
+			}
+			
+			//System.out.println(m.getStatus());
+			m_click.setOpaque(true);
 		}
+		
 	}
 	
 	public void addSource(List<Mutant> mutants){

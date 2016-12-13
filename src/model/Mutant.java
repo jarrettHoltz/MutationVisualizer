@@ -17,6 +17,7 @@ public class Mutant implements SourceCode {
 	private String methodName;
 	private int lineNumber;
 	private String mutantSource;
+	private String fullSource;
 	private ArrayList<Test> tests = new ArrayList<Test>();
 	
 	public Mutant(int mutantId,
@@ -31,6 +32,7 @@ public class Mutant implements SourceCode {
 		this.className = className;
 		this.methodName = methodName;
 		this.lineNumber = lineNumber;
+		this.fullSource = mutantSource;
 		this.mutantSource = mutantSource.split("\n")[lineNumber-1];
 		this.status = null;
 	}
@@ -73,10 +75,20 @@ public class Mutant implements SourceCode {
 		return this.lineNumber;
 	}
 
+	/*
+	 * returns just the line where the mutant occurs
+	 * @see model.SourceCode#getSource()
+	 */
 	public String getSource(){
 		return this.mutantSource;
 	}
 
+	/*
+	 * returns the entire code with the mutant embedded
+	 */
+	public String getFullSource(){
+		return fullSource;
+	}
 	public ArrayList<Test> getMutatorTests(){
 		return this.tests;
 	}
