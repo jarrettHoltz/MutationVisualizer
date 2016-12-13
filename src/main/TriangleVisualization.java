@@ -1,14 +1,14 @@
 package main;
 
-import java.awt.Font;
-import java.util.Set;
-
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 
+import controller.BrowserListener;
+import controller.CodeLineMouseListener;
+import controller.CollapsiblePanelListener;
 import controller.TriangleParser;
 import model.TriangleModel;
-import view.TriangleWindow;
+import view.MutantVizWindow;
 
 public class TriangleVisualization {
 
@@ -27,9 +27,16 @@ public class TriangleVisualization {
 
 		TriangleModel model = new TriangleModel();
 		TriangleParser parser = new TriangleParser();
-		parser.BuildModel(model,"triangle/mutation_results", "triangle/src", "triangle/test" );
-		TriangleWindow view = new TriangleWindow(model);
+		parser.buildModel(model,"triangle/mutation_results", "triangle/src", "triangle/test" );
+		MutantVizWindow view = new MutantVizWindow(model);
+		addListeners(view);
 		//Make hovering over summary bar segments more responsive
 		ToolTipManager.sharedInstance().setInitialDelay(100); //Default is 750ms
+	}
+	
+	private static void addListeners(MutantVizWindow view) {
+		view.setTreeSelectionListener(new BrowserListener(view));
+		view.setActionListener(new CollapsiblePanelListener(view));
+		view.setMouseListener(new CodeLineMouseListener(view));
 	}
 }

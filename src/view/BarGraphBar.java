@@ -8,13 +8,15 @@ import java.awt.event.ComponentEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import model.MutantStatus;
+
 public class BarGraphBar extends JPanel
 {
 	private static final long serialVersionUID = -9230562314273402L;
 	private static final Color[] DEFAULT_COLORS = {
-			new Color(0x99, 0xDD, 0x99), //green, for killed
-			new Color(0xDD, 0x99, 0x99), //red, for live (and covered)
-			new Color(0xAA, 0xAA, 0xAA), //light gray, for uncovered
+			MutantColor.getColor(ColorContext.SOLID, MutantStatus.FAIL),
+			MutantColor.getColor(ColorContext.SOLID, MutantStatus.COVERED),
+			MutantColor.getColor(ColorContext.SOLID, MutantStatus.LIVE),
 	};
 	private static final String[] DEFAULT_LABELS = {
 			"Killed",
@@ -28,7 +30,6 @@ public class BarGraphBar extends JPanel
 	 * Constructs a bar for a bar graph
 	 * @param sections The percentages of each of the sections of the bar; these should add up to 1.
 	 * @param labels The labels to show as hovertext for each of the sections; should be at least as long as sections.
-	 * @param colors The colors to use for the sections; this should be at least as long as sections. If null, it will use the three default colors.
 	 */
 	public BarGraphBar(double[] sections, String[] labels, Color[] colors) {
 		//TODO: Add exception if the parameter constraints are violated?

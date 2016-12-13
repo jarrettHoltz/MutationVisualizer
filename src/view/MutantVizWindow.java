@@ -3,18 +3,20 @@ package view;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import controller.CollapsiblePanelAction;
 import model.Mutant;
 import model.MutantVizModel;
 import model.SourceClass;
@@ -25,19 +27,15 @@ import model.Test;
  * Manages the various views of the mutation visualizer for the Triangle program.
  * @author rezecib
  */
-public class TriangleWindow extends JFrame implements ActionListener, TreeSelectionListener
+public class MutantVizWindow extends JFrame
 {
 	private static final long serialVersionUID = -2387852887507443608L;
-	
-	private static final String EXPAND_CODE = "ExpandCode";
-	private static final String EXPAND_COMPARISON = "ExpandComparison";
-	private static final String EXPAND_SUMMARY = "ExpandSummary";
 	
 	private BrowserPanel browserPanel;
 	private SummaryPanel summaryPanel;
 	private CodePanel codePanel;
 	private JScrollPane codeScrollPane;
-	private CodePanel comparePanel;
+	private CodePanel comparePanel; //TODO: make this
 	
 	/**
 	 * These constraints hold the default layout parameters,
@@ -47,10 +45,13 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 	
 	//Collapsed versions of the above, except the browser, which never collapses
 	private JPanel collapsedSummaryPanel, collapsedCodePanel, collapsedComparePanel;
+	private List<JButton> expandButtons;
 
-	public TriangleWindow(MutantVizModel model) {
+	public MutantVizWindow(MutantVizModel model) {
 		super("Mutation Visualizer");
 		setLayout(new GridBagLayout());
+		
+		expandButtons = new ArrayList<JButton>();
 		
 		buildPanels(model);
 		
@@ -72,9 +73,7 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 //		gbc.gridx = 2;
 //		gbc.weightx = 0.1;
 //		add(collapsedComparePanel, gbc);
-		
-		browserPanel.setDefaultSelection();
-		
+				
 		setSize(1600, 900);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setExtendedState(MAXIMIZED_BOTH);
@@ -84,7 +83,6 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 	private void buildPanels(MutantVizModel model) {
 		browserPanel = new BrowserPanel(model);
 		browserPanel.setProgram("Triangle");
-		browserPanel.setTreeSelectionListener(this);
 		summaryPanel = new SummaryPanel();
 		codePanel = new CodePanel(model);
 		codeScrollPane = new JScrollPane(codePanel);
@@ -97,13 +95,13 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		constraints.weighty = 1;
 		collapsedSummaryPanel = new JPanel();
 		collapsedSummaryPanel.setLayout(new GridBagLayout());
-		collapsedSummaryPanel.add(buildExpandButton(false, "v Summary v", EXPAND_SUMMARY), constraints);
+		collapsedSummaryPanel.add(buildExpandButton(false, "v Summary v", CollapsiblePanelAction.EXPAND_SUMMARY.name()), constraints);
 		collapsedCodePanel = new JPanel();
 		collapsedCodePanel.setLayout(new GridBagLayout());
-		collapsedCodePanel.add(buildExpandButton(false, "^ Code ^", EXPAND_CODE), constraints); //TODO: may need to say test, mutant instead; get this from node
+		collapsedCodePanel.add(buildExpandButton(false, "^ Code ^", CollapsiblePanelAction.EXPAND_CODE.name()), constraints); //TODO: may need to say test, mutant instead; get this from node
 		collapsedComparePanel = new JPanel();
 		collapsedComparePanel.setLayout(new GridBagLayout());
-		collapsedComparePanel.add(buildExpandButton(true, "^ Mutants ^", EXPAND_COMPARISON), constraints); //TODO: may need to say tests, code
+		collapsedComparePanel.add(buildExpandButton(true, "^ Mutants ^", CollapsiblePanelAction.EXPAND_COMPARISON.name()), constraints); //TODO: may need to say tests, code
 		
 		for(JPanel panel : new JPanel[]{collapsedSummaryPanel, collapsedCodePanel, collapsedComparePanel}) {
 			panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -117,7 +115,6 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 			button.setUI(new VerticalButtonUI(270));
 		}
 		button.setActionCommand(actionCommand);
-		button.addActionListener(this);
 		//TODO: style this to look more like a panel and less like a button
 		return button;
 	}
@@ -127,6 +124,7 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		Object contents = node.getUserObject();
 		boolean hasCode = contents instanceof SourceCode;
 		if(hasCode) {
+			codePanel.clearSource();
 			codePanel.addSource((SourceCode)contents);
 			codePanel.packSource();
 			codePanel.setTitle(contents.toString());
@@ -135,25 +133,9 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		else {
 			setSummaryView(hasCode);
 		}
-		System.out.println("SC: " + (contents instanceof SourceClass));
-		System.out.println("Test: " + (contents instanceof Test));
-		System.out.println("Mutant: " + (contents instanceof Mutant));
-		
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		String command = e.getActionCommand();
-		System.out.println("Button pressed: " + command);
-		if(command == EXPAND_CODE) {
-			setCodeView();
-		} else if(command == EXPAND_SUMMARY) {
-			setSummaryView(true);
-		}
-	}
-	
-	private void setCodeView() {
+	public void setCodeView() {
 		remove(summaryPanel);
 		remove(collapsedCodePanel);
 		gbc.gridy = 0;
@@ -175,7 +157,7 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		repaint();
 	}
 	
-	private void setSummaryView(boolean hasCode) {
+	public void setSummaryView(boolean hasCode) {
 		remove(codeScrollPane);
 		remove(collapsedSummaryPanel);
 		
@@ -196,15 +178,25 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		validate();
 		repaint();
 	}
-
-	@Override
-	/**
-	 * React to a selection being made in the browser;
-	 * Updates the view to something relevant to that node, for example
-	 * a view of the code, or a summary of the folder.
-	 */
-	public void valueChanged(TreeSelectionEvent e)
-	{
-		setNode((DefaultMutableTreeNode) e.getPath().getLastPathComponent());
+	
+	public void setComparison(CodeLine source) {
+		//TODO: Set up the comparison panel with the targets of this CodeLine
+	}
+	
+	public void setTreeSelectionListener(TreeSelectionListener listener) {
+		browserPanel.setTreeSelectionListener(listener);
+		browserPanel.setDefaultSelection();
+	}
+	
+	public void setActionListener(ActionListener listener) {
+		for(JButton button : expandButtons) {
+			button.addActionListener(listener);
+		}
+	}
+	
+	public void setMouseListener(MouseListener listener) {
+		//TODO: give to CodePanel, ComparePanel
+		codePanel.addNewMouseListener(listener);
+		comparePanel.addNewMouseListener(listener);
 	}
 }

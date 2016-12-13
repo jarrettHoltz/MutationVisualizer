@@ -12,6 +12,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import model.Directory;
 import model.Mutant;
+import model.MutantStatus;
 import model.MutantVizModel;
 import model.MutatorType;
 import model.SourceClass;
@@ -35,28 +36,28 @@ public class TriangleParser implements MutantVizController{
 	 * @param source_dir, directory for source code
 	 * @param test_dir, directory for test code
 	 */
-	public void BuildModel(MutantVizModel model, 
+	public void buildModel(MutantVizModel model, 
 			String mut_dir, String source_dir, String test_dir) {
 		
 		this.model = model;
 		
 		// Parse files and add data to model
-		ParseSummary(mut_dir);
+		parseSummary(mut_dir);
 		
-		ParseSource(source_dir);
+		parseSource(source_dir);
 		
-		ParseTests(test_dir);
+		parseTests(test_dir);
 		
-		ParseMutants(mut_dir);
+		parseMutants(mut_dir);
 		
-		ParseKilled(mut_dir);
+		parseKilled(mut_dir);
 	}
 	
 	/**
 	 * 
 	 * @param directory, mutation analysis results directory (user input)
 	 */
-	private void ParseSummary(String directory) {
+	private void parseSummary(String directory) {
 		int total = 0;
 		int covered = 0;
 		int live = 0;
@@ -89,7 +90,7 @@ public class TriangleParser implements MutantVizController{
 	 * 
 	 * @param directory
 	 */
-	private void ParseMutants(String directory) {
+	private void parseMutants(String directory) {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Directory("mutants", model.getSummary()));
 		DefaultMutableTreeNode all = new DefaultMutableTreeNode(new Directory("all", model.getSummary()));
 		root.add(all);
@@ -113,7 +114,7 @@ public class TriangleParser implements MutantVizController{
 				class_name = split[1];
 				int line_number = Integer.parseInt(line_split[5]);
 				String mutant_dir = directory + "/mutants/" + line_split[0] + "/triangle/Triangle.java";
-				String mutant_source = SlurpFile(mutant_dir);
+				String mutant_source = slurpFile(mutant_dir);
 				Mutant mutant = new Mutant(mutant_id, 
 						MutatorType.valueOf(mutator), 
 						class_name, 
@@ -138,7 +139,7 @@ public class TriangleParser implements MutantVizController{
 	 * 
 	 * @param directory
 	 */
-	private void ParseKilled(String directory) {
+	private void parseKilled(String directory) {
 		try (BufferedReader br = new BufferedReader(new FileReader(directory + "/killed.csv"))) {
 			String line;
 			while ((line = br.readLine()) != null) {
@@ -148,8 +149,15 @@ public class TriangleParser implements MutantVizController{
 					
 				} else {
 					Mutant mutant = model.getMutant(Integer.parseInt(line_split[0]));
-					mutant.setStatus(line_split[1]);
-					//mutant.status = line_split[1];
+					mutant.setStatus(MutantStatus.valueOf(line_split[1]));
+					if(mutant.getStatus().isKilled()) {
+						//Note: assumes only one test; this is specific to the Triangle program
+						Test theTest = (Test) ((DefaultMutableTreeNode)model.getTestRoot().getChildAt(0).getChildAt(0)).getUserObject();
+						//Add tests that killed this mutant
+						mutant.AddTest(theTest);
+						//Add this mutant to tests that killed it
+						theTest.AddMutant(mutant);
+					}
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -169,14 +177,14 @@ public class TriangleParser implements MutantVizController{
 	 * 
 	 * @param directory
 	 */
-	private void ParseSource(String directory) {
+	private void parseSource(String directory) {
 		String sourceRootFolder = directory.replaceFirst("^.*/([^/]*)$", "$1"); //get the last folder in the path
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Directory(sourceRootFolder, model.getSummary()));
 		DefaultMutableTreeNode triangle = new DefaultMutableTreeNode(new Directory("triangle", model.getSummary()));
 		root.add(triangle);
 		String sourcePath = directory + "/triangle/Triangle.java";
 		try {
-			String source = SlurpFile(sourcePath);
+			String source = slurpFile(sourcePath);
 			SourceClass sourceClass = new SourceClass("Triangle", source, model.getSummary());
 			model.AddSource(sourceClass);
 			triangle.add(new DefaultMutableTreeNode(sourceClass));
@@ -187,14 +195,14 @@ public class TriangleParser implements MutantVizController{
 		model.setSourceRoot(root);
 	}
 	
-	private void ParseTests(String directory) {
+	private void parseTests(String directory) {
 		String sourceRootFolder = directory.replaceFirst("^.*/([^/]*)$", "$1"); //get the last folder in the path
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Directory(sourceRootFolder, model.getSummary()));
 		DefaultMutableTreeNode triangle = new DefaultMutableTreeNode(new Directory("triangle", model.getSummary()));
 		root.add(triangle);
 		String source_path = directory + "/triangle/TriangleTest.java";
 		try {
-			String source = SlurpFile(source_path);
+			String source = slurpFile(source_path);
 			Test test_class = new Test("TriangleTest", source, model.getSummary());
 			triangle.add(new DefaultMutableTreeNode(test_class));
 		} catch (FileNotFoundException e) {
@@ -204,7 +212,7 @@ public class TriangleParser implements MutantVizController{
 		model.setTestRoot(root);
 	}
 	
-	private String SlurpFile(String path) throws FileNotFoundException {
+	private String slurpFile(String path) throws FileNotFoundException {
 		Scanner sc = new Scanner(new File(path));
 		String contents = sc.useDelimiter("\\Z").next();
 		sc.close();

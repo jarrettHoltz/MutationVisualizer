@@ -12,27 +12,27 @@ import java.util.ArrayList;
 public class Mutant implements SourceCode {
 	private int mutantId;
 	private MutatorType mutator;
-	private String status;
+	private MutantStatus status;
 	private String className;
 	private String methodName;
 	private int lineNumber;
 	private String mutantSource;
 	private ArrayList<Test> tests = new ArrayList<Test>();
 	
-	public Mutant(int mutant_id,
+	public Mutant(int mutantId,
 			MutatorType mutator,
-			String class_name,
-			String method_name,
-			int line_number,
-			String mutant_source) {
+			String className,
+			String methodName,
+			int lineNumber,
+			String mutantSource) {
 		
-		this.mutantId = mutant_id;
+		this.mutantId = mutantId;
 		this.mutator = mutator;
-		this.className = class_name;
-		this.methodName = method_name;
-		this.lineNumber = line_number;
-		this.mutantSource = mutant_source;
-		this.status = "unknown";
+		this.className = className;
+		this.methodName = methodName;
+		this.lineNumber = lineNumber;
+		this.mutantSource = mutantSource.split("\n")[lineNumber-1];
+		this.status = null;
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class Mutant implements SourceCode {
 		return this.mutator;
 	}
 
-	public String getStatus(){
+	public MutantStatus getStatus(){
 		return this.status;
 	}
 
@@ -92,7 +92,7 @@ public class Mutant implements SourceCode {
 	// 	this.mutator = newMutator;
 	// }
 
-	public void setStatus(String newStatus){
+	public void setStatus(MutantStatus newStatus){
 		this.status = newStatus;
 	}
 

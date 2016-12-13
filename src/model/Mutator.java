@@ -43,8 +43,8 @@ public class Mutator extends SummaryNode {
 		int covered = total; //This information is not made available, but summary seems to suggest all should be covered
 		for(Mutant mutant : mutants) {
 			//String status = mutant.status;
-			String status = mutant.getStatus();
-			if (status.equals("LIVE")) {
+			//If COVERED mutant status gets added to the available information, check here
+			if (mutant.getStatus() == MutantStatus.LIVE) {
 				live += 1;
 			} else {
 				killed += 1;

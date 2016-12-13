@@ -1,9 +1,10 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Mutant;
+import model.MutantStatus;
 import model.MutantVizModel;
 import model.SourceClass;
 import model.SourceCode;
-import model.Test;
 
 public class CodePanel extends JPanel
 {
@@ -27,38 +28,26 @@ public class CodePanel extends JPanel
 	private MutantVizModel model;
 	private GridBagConstraints gbc;
 	private List<JLabel> codeLabels;
+	private List<MouseListener> mouseListeners;
 	
 	public CodePanel(MutantVizModel model) {
 		this.model = model;
 		setLayout(new GridBagLayout());
 		
+		mouseListeners = new ArrayList<MouseListener>();
 		codeLabels = new ArrayList<JLabel>();
 		
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 1;
 		
-		gbc.gridy = 0;
-		gbc.weighty = 1e-15;
-		gbc.anchor = GridBagConstraints.CENTER;
 		titleLabel = new JLabel("Code");
-		gbc.ipadx = 20;
-		gbc.ipady = 20;
 		titleLabel.setBackground(new Color(0xCC, 0xCC, 0xCC));
 		titleLabel.setOpaque(true);
 		titleLabel.setHorizontalAlignment(JLabel.CENTER);
 		titleLabel.setVerticalAlignment(JLabel.CENTER);
 		titleLabel.setFont(titleLabel.getFont().deriveFont(42f));
-		add(titleLabel, gbc);
-		
-		//Reset the gbc constants to what the code-adding should be using
-		gbc.ipadx = 0;
-		gbc.ipady = 0;
-		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridy = 1;
-		gbc.weighty = 0;
+		clearSource();
 	}
 	
 	public void setTitle(String titleString) {
@@ -67,49 +56,49 @@ public class CodePanel extends JPanel
 	
 	/**
 	 * Adds a piece of source code to the display. Note that the caller is responsible for calling
+	 * {@link CodePanel#clearSource()} before code is added,
 	 * {@link CodePanel#packSource()} and validate()/repaint() when addition of source code is finished.
 	 * @param code The code to add.
 	 */
 	public void addSource(SourceCode code) {
-		//TODO: Maybe packSource() can be called at the end? maybe not for the comparison panel, though...
-		// most remove previous content JLabel, or else will keep accumulating
-//		if(content != null) {
-//			remove(content);
-//		}
-		String[] source = code.getSource().split("\n");
-		for(String line : source) {
-			JLabel lineLabel = new JLabel(line);
-			//TODO: real color logic, add listeners for click (MouseListener?)
-			if(Math.random() < 0.1) {				
-				lineLabel.setBackground(new Color(0xFF, 0xBB, 0xBB));
-				lineLabel.setOpaque(true);
-			}
-			add(lineLabel, gbc);
+		String[] source = null;
+		source = code.getSource().split("\n");
+		CodeLine[] codeLines = new CodeLine[source.length];
+		int maxLines = source.length+1;
+		for(int i = 0; i < source.length; i++) {
+			codeLines[i] = new CodeLine(source[i], i+1, maxLines);
+			add(codeLines[i], gbc);
 			gbc.gridy++;
 		}
+		
 		if(code instanceof SourceClass) {
-//			src = (SourceClass) code;
-			//System.out.println(src.getSource());
-			// in order to facilitate new line in JLabel, need to wrap in html
-			// then replace \n with <br> (so weird!)
-//			String txt_formatted = formatCode(src.getSource());
-//			content = new JLabel(txt_formatted);
-//			content.setHorizontalAlignment(JLabel.LEFT);
-			
-			// get mutants
-			//ArrayList<Integer> mutants = src.getMutants();
-			
-			
-		} else if(code instanceof Test) {
-//			test = (Test) code;
-//			content = new JLabel(formatCode(test.getSource()));
-//			content.setHorizontalAlignment(JLabel.LEFT);
-		} else if(code instanceof Mutant) {
-//			mutant = (Mutant) code;
-//			int m_id = mutant.getMutantId();
-//			content = new JLabel(formatCode(mutant.toString() + model.getSource(m_id).getSource()));
+			boolean[] listenersAdded = new boolean[source.length];
+			MutantStatus[] lineMutantStatus = new MutantStatus[source.length];
+			for(Mutant m : ((SourceClass)code).getMutants()) {
+				int i = m.getLineNumber()-1;
+				CodeLine codeLine = codeLines[i];
+				if(!listenersAdded[i]) {					
+					for(MouseListener listener: mouseListeners) {
+						codeLine.addMouseListener(listener);
+					}
+					listenersAdded[i] = true;
+				}
+				codeLine.addTarget(m);
+				MutantStatus status = m.getStatus();
+				if(status == MutantStatus.LIVE) {
+					lineMutantStatus[i] = MutantStatus.LIVE;
+				} else if(lineMutantStatus[i] != MutantStatus.LIVE) {
+					lineMutantStatus[i] = MutantStatus.FAIL;
+				}
+				//EXTENSION: support other mutant status colorings, with an order of priority
+			}
+			for(int i = 0; i < lineMutantStatus.length; i++) {
+				if(lineMutantStatus[i] != null) { //there are mutants here, put the right color
+					codeLines[i].setBackground(MutantColor.getColor(ColorContext.HIGHLIGHT, lineMutantStatus[i]));
+					codeLines[i].setOpaque(true);					
+				}
+			}
 		}
-//		add(content, gbc);
 	}
 	
 	/**
@@ -127,14 +116,27 @@ public class CodePanel extends JPanel
 	 * Note that the caller is responsible for calling validate()/repaint() after removal.
 	 */
 	public void clearSource() {
+		removeAll();
+
+		//Add the title back in
+		gbc.gridy = 0;
+		gbc.weighty = 1e-15;
+		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.ipadx = 20;
+		gbc.ipady = 20;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		add(titleLabel, gbc);
+		
+		//Reset the gbc constants to what the code-adding should be using
 		gbc.gridy = 1;
-		int last_idx = codeLabels.size()-1;
-		while(!codeLabels.isEmpty()) {
-			remove(codeLabels.remove(last_idx--));
-		}
+		gbc.weighty = 0;
+		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gbc.ipadx = 0;
+		gbc.ipady = 0;
+		gbc.fill = GridBagConstraints.NONE;
 	}
 	
-	private String formatCode(String raw) {
-		return "<html>"+raw.replace("\n", "<br>") + "</html>";
+	public void addNewMouseListener(MouseListener listener) {
+		mouseListeners.add(listener);
 	}
 }

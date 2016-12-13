@@ -5,26 +5,22 @@ import java.util.ArrayList;
  * SourceClass contains the text of a class from the mutated
  * source, a list of mutants for the class, and the class name
  * @author jaholtz
- *
  */
 public class SourceClass extends SummaryNode implements SourceCode {
 	// Storage of entire code base
 	private String source;
-	private ArrayList<Integer> mutants;
-	
-	// Map of line# to mutant# or pointers to mutants
-	
-	// map of line# to test# or pointer to test 
+	private ArrayList<Mutant> mutants;
+	// If the information were available, list of covering/killing tests
 	
 	public SourceClass(String className, String source_string, Summary summary) {
 		this.name = className;
 		this.source = source_string;
 		this.summary = summary;
-		this.mutants = new ArrayList<Integer>();
+		this.mutants = new ArrayList<Mutant>();
 	}
 	
-	public void AddMutant(int mutant_id) {
-		mutants.add(mutant_id);
+	public void AddMutant(Mutant mutant) {
+		mutants.add(mutant);
 	}
 	
 	@Override
@@ -32,17 +28,15 @@ public class SourceClass extends SummaryNode implements SourceCode {
 		return name + ".java";
 	}
 
-
 	//Accessors
 	@Override
 	public String getSource(){
 		return this.source;
 	}
 
-	public ArrayList<Integer> getMutants(){
+	public ArrayList<Mutant> getMutants(){
 		return this.mutants;
 	}
-
 
 	//Mutators
 	// public void setSource(String newSource){

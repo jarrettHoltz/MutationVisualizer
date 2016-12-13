@@ -29,8 +29,8 @@ public class MutantTest {
         assertEquals(expectedType, actualType);
 
         //Check Status
-        String actualStatus = m.getStatus();
-        String expectedStatus = "unknown";
+        MutantStatus actualStatus = m.getStatus();
+        MutantStatus expectedStatus = null;
         assertEquals(expectedStatus, actualStatus);
 
         //Check Class Name

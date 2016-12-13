@@ -59,21 +59,9 @@ public class TriangleModel implements MutantVizModel {
 	@Override
 	public void addMutant(Mutant mutant) {
 		mutants.add(mutant);
-		//mutators.get(mutant.mutator).addMutant(mutant);
 		mutators.get(mutant.getMutator()).addMutant(mutant);
-		//SourceClass source = sources.get(mutant.className);
 		SourceClass source = sources.get(mutant.getClassName());
-		//source.AddMutant(mutant.mutantId);
-		source.AddMutant(mutant.getMutantId());
-		//if(!mutant.status.equals("LIVE")) {
-		if(!mutant.getStatus().equals("LIVE")) {
-			//Assumes only one test
-			Test theTest = (Test) ((DefaultMutableTreeNode)testRoot.getChildAt(0).getChildAt(0)).getUserObject();
-			//Add tests that killed this mutant
-			mutant.AddTest(theTest);
-			//Add this mutant to tests that killed it
-			theTest.AddMutant(mutant);
-		}
+		source.AddMutant(mutant);
 	}
 
 	@Override

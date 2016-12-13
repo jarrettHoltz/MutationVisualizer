@@ -15,10 +15,10 @@ import model.SummaryNode;
 public class MutantTreeCellRenderer extends DefaultTreeCellRenderer
 {
 	private static final long serialVersionUID = -5481343225088718815L;
-	private static final Color LIVE_COLOR = new Color(0xFF, 0xBB, 0xBB);
-	private static final Color LIVE_COLOR_SELECTED = new Color(0xDD, 0x99, 0x99);
-	private static final Color DEAD_COLOR = new Color(0xBB, 0xFF, 0xBB);
-	private static final Color DEAD_COLOR_SELECTED = new Color(0x99, 0xDD, 0x99);
+	private static final Color LIVE = new Color(0xFF, 0xBB, 0xBB);
+	private static final Color LIVE_SELECTED = new Color(0xDD, 0x99, 0x99);
+	private static final Color DEAD = new Color(0xBB, 0xFF, 0xBB);
+	private static final Color DEAD_SELECTED = new Color(0x99, 0xDD, 0x99);
 	private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder();
 	private static final Border SPACY_BORDER = BorderFactory.createMatteBorder(20, 0, 5, 0, Color.white);
 	private Color default_color, default_color_selected;
@@ -69,13 +69,13 @@ public class MutantTreeCellRenderer extends DefaultTreeCellRenderer
 	}
 	
 	private void setLiveColor() {
-		setBackgroundNonSelectionColor(LIVE_COLOR);
-		setBackgroundSelectionColor(LIVE_COLOR_SELECTED);
+		setBackgroundNonSelectionColor(LIVE);
+		setBackgroundSelectionColor(LIVE_SELECTED);
 	}
 	
 	private void setDeadColor() {
-		setBackgroundNonSelectionColor(DEAD_COLOR);
-		setBackgroundSelectionColor(DEAD_COLOR_SELECTED);
+		setBackgroundNonSelectionColor(DEAD);
+		setBackgroundSelectionColor(DEAD_SELECTED);
 	}
 	
 	private void setDefaultColor() {

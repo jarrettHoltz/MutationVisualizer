@@ -40,8 +40,8 @@ public class SourceClassTest {
         assertEquals(expectedSummary.getKilled(), actualSummary.getKilled());
 
         //Test Mutants
-        ArrayList<Integer> actualMutants = sc.getMutants();
-        ArrayList<Integer> expectedMutants = new ArrayList<Integer>();
+        ArrayList<Mutant> actualMutants = sc.getMutants();
+        ArrayList<Mutant> expectedMutants = new ArrayList<Mutant>();
         assertEquals(expectedMutants, actualMutants);
     }
 
@@ -53,11 +53,12 @@ public class SourceClassTest {
         SourceClass sc = new SourceClass("className", "source", s);
 
         //Add a new mutant
-        sc.AddMutant(4);
+        Mutant mutant = new Mutant(1, MutatorType.AOR, "Triangle.java", "classify", 20, "        if (a <= 0 && b <= 0 || c <= 0) {");
+        sc.AddMutant(mutant);
 
-        ArrayList<Integer> expectedMutants = new ArrayList<Integer>();
-        expectedMutants.add(4);
-        ArrayList<Integer> actualMutants = sc.getMutants();
+        ArrayList<Mutant> expectedMutants = new ArrayList<Mutant>();
+        expectedMutants.add(mutant);
+        ArrayList<Mutant> actualMutants = sc.getMutants();
         assertEquals(expectedMutants, actualMutants);
 
     }

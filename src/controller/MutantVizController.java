@@ -15,7 +15,7 @@ public interface MutantVizController {
 	 * @param source_dir, directory for source code
 	 * @param test_dir, directory for test code
 	 */
-	public void BuildModel(MutantVizModel model, 
+	public void buildModel(MutantVizModel model, 
 						   String mut_dir, 
 						   String source_dir,
 						   String test_dir);
