@@ -11,8 +11,10 @@ import model.SourceCode;
 public class CodeLine extends JLabel {
 	private static final long serialVersionUID = -3345614810564531206L;
 	private List<SourceCode> targets;
+	private int lineNumber;
 	
 	public CodeLine(String code, int lineNumber, int maxLines) {
+		this.lineNumber = lineNumber;
 		int numDigits = (int)Math.log10(maxLines) + 1;
 		String.format("%1$" + numDigits + "s", lineNumber);
 		setText(String.format("%1$" + numDigits + "s", lineNumber) + " | " + code);
@@ -26,6 +28,10 @@ public class CodeLine extends JLabel {
 
 	public void addTarget(SourceCode target) {
 		targets.add(target);
+	}
+	
+	public int getLineNumber(){
+		return lineNumber;
 	}
 	
 	public String toString() {

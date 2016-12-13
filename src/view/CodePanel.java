@@ -30,7 +30,7 @@ public class CodePanel extends JPanel
 	private List<JLabel> codeLabels;
 	private List<MouseListener> mouseListeners;
 	
-	public CodePanel(MutantVizModel model) {
+	public CodePanel(MutantVizModel model, String title) {
 		this.model = model;
 		setLayout(new GridBagLayout());
 		
@@ -41,7 +41,7 @@ public class CodePanel extends JPanel
 		gbc.gridx = 0;
 		gbc.weightx = 1;
 		
-		titleLabel = new JLabel("Code");
+		titleLabel = new JLabel(title);
 		titleLabel.setBackground(new Color(0xCC, 0xCC, 0xCC));
 		titleLabel.setOpaque(true);
 		titleLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -97,6 +97,34 @@ public class CodePanel extends JPanel
 					codeLines[i].setBackground(MutantColor.getColor(ColorContext.HIGHLIGHT, lineMutantStatus[i]));
 					codeLines[i].setOpaque(true);					
 				}
+			}
+		}
+	}
+	
+	public void addSource(List<Mutant> mutants){
+		MutantStatus[] lineMutantStatus = new MutantStatus[mutants.size()];
+		CodeLine[] mutantLines = new CodeLine[mutants.size()];
+		int maxLines = mutants.size()+1;
+		int i = 0;
+		for(Mutant m : mutants) {
+			if(m != null){
+				mutantLines[i] = new CodeLine(m.getSource(), m.getLineNumber(), maxLines);
+				add(mutantLines[i], gbc);
+				gbc.gridy++;
+				
+				MutantStatus status = m.getStatus();
+				if(status == MutantStatus.LIVE) {
+					lineMutantStatus[i] = MutantStatus.LIVE;
+				} else if(lineMutantStatus[i] != MutantStatus.LIVE) {
+					lineMutantStatus[i] = MutantStatus.FAIL;
+				}
+				i++;
+			}
+		}
+		for(int j = 0; j < lineMutantStatus.length; j++) {
+			if(lineMutantStatus[j] != null) { //there are mutants here, put the right color
+				mutantLines[j].setBackground(MutantColor.getColor(ColorContext.HIGHLIGHT, lineMutantStatus[j]));
+				mutantLines[j].setOpaque(true);					
 			}
 		}
 	}

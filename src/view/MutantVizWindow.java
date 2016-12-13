@@ -37,6 +37,7 @@ public class MutantVizWindow extends JFrame
 	private CodePanel codePanel;
 	private JScrollPane codeScrollPane;
 	private CodePanel comparePanel; //TODO: make this
+	private MutantVizModel model;
 	
 	/**
 	 * These constraints hold the default layout parameters,
@@ -51,7 +52,7 @@ public class MutantVizWindow extends JFrame
 	public MutantVizWindow(MutantVizModel model) {
 		super("Mutation Visualizer");
 		setLayout(new GridBagLayout());
-		
+		this.model = model;
 		expandButtons = new ArrayList<JButton>();
 		
 		buildPanels(model);
@@ -85,10 +86,10 @@ public class MutantVizWindow extends JFrame
 		browserPanel = new BrowserPanel(model);
 		browserPanel.setProgram("Triangle");
 		summaryPanel = new SummaryPanel();
-		codePanel = new CodePanel(model);
+		codePanel = new CodePanel(model, "Code");
 		codeScrollPane = new JScrollPane(codePanel);
 		codeScrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		comparePanel = new CodePanel(model);
+		comparePanel = new CodePanel(model, "Mutations");
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.BOTH;
@@ -139,7 +140,8 @@ public class MutantVizWindow extends JFrame
 	public void setCodeView() {
 		remove(summaryPanel);
 		remove(collapsedCodePanel);
-		if(mutantByLine != null) remove(mutantByLine);
+		remove(comparePanel);
+//		if(mutantByLine != null) remove(mutantByLine);
 		gbc.gridy = 0;
 		gbc.gridwidth = 2;
 		gbc.weightx = 1;
@@ -162,7 +164,8 @@ public class MutantVizWindow extends JFrame
 	public void setSummaryView(boolean hasCode) {
 		remove(codeScrollPane);
 		remove(collapsedSummaryPanel);
-		if(mutantByLine != null) remove(mutantByLine);
+		remove(comparePanel);
+//		if(mutantByLine != null) remove(mutantByLine);
 		
 		gbc.gridy = 0;
 		gbc.gridx = 1;
@@ -182,26 +185,35 @@ public class MutantVizWindow extends JFrame
 		repaint();
 	}
 	
-	private JPanel mutantByLine;
+//	private JPanel mutantByLine;
 	public void setComparison(CodeLine source) {
 		//TODO: Set up the comparison panel with the targets of this CodeLine
 		
-		if(mutantByLine != null) remove(mutantByLine);
-		mutantByLine = new JPanel();
+//		if(mutantByLine != null) remove(mutantByLine);
 		
-		mutantByLine.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1.0;
-		c.gridwidth = 1;
-		c.gridheight = 2;
-		c.weighty = 1.0;
-		JLabel text = new JLabel("Testing");
-		mutantByLine.add(text);
-		add(mutantByLine, c);
+//		mutantByLine = new CodePanel(model, "Mutation");
+//		mutantByLine.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		int mutantLineNum = source.getLineNumber();
+		//TODO: make name not hard-coded
 		
-		validate();
-		repaint();
+		List<Mutant> mutants = model.getMutants("Triangle", mutantLineNum);
+		
+		if(!mutants.isEmpty()){
+			comparePanel.clearSource();
+			comparePanel.addSource(mutants);
+			comparePanel.packSource();
+		
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.BOTH;
+			c.weightx = 1.0;
+			c.gridwidth = 1;
+			c.gridheight = 2;
+			c.weighty = 1.0;
+			add(comparePanel, c);
+			
+			validate();
+			repaint();
+		}
 		
 	}
 	
