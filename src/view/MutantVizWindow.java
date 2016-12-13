@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.TreeSelectionListener;
@@ -138,6 +139,7 @@ public class MutantVizWindow extends JFrame
 	public void setCodeView() {
 		remove(summaryPanel);
 		remove(collapsedCodePanel);
+		if(mutantByLine != null) remove(mutantByLine);
 		gbc.gridy = 0;
 		gbc.gridwidth = 2;
 		gbc.weightx = 1;
@@ -160,6 +162,7 @@ public class MutantVizWindow extends JFrame
 	public void setSummaryView(boolean hasCode) {
 		remove(codeScrollPane);
 		remove(collapsedSummaryPanel);
+		if(mutantByLine != null) remove(mutantByLine);
 		
 		gbc.gridy = 0;
 		gbc.gridx = 1;
@@ -179,8 +182,27 @@ public class MutantVizWindow extends JFrame
 		repaint();
 	}
 	
+	private JPanel mutantByLine;
 	public void setComparison(CodeLine source) {
 		//TODO: Set up the comparison panel with the targets of this CodeLine
+		
+		if(mutantByLine != null) remove(mutantByLine);
+		mutantByLine = new JPanel();
+		
+		mutantByLine.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1.0;
+		c.gridwidth = 1;
+		c.gridheight = 2;
+		c.weighty = 1.0;
+		JLabel text = new JLabel("Testing");
+		mutantByLine.add(text);
+		add(mutantByLine, c);
+		
+		validate();
+		repaint();
+		
 	}
 	
 	public void setTreeSelectionListener(TreeSelectionListener listener) {
