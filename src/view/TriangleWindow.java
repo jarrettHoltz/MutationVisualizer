@@ -84,7 +84,7 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		browserPanel.setProgram("Triangle");
 		browserPanel.setTreeSelectionListener(this);
 		summaryPanel = new SummaryPanel();
-		codePanel = new CodePanel();
+		codePanel = new CodePanel(model);
 		comparePanel = new ComparePanel();
 		
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -118,11 +118,18 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		return button;
 	}
 	
+	Object curNode;
 	public void setNode(DefaultMutableTreeNode node) {
 		summaryPanel.buildSummaryForNode(node);
-		Object o = node.getUserObject();
-		boolean hasCode = o instanceof SourceClass || o instanceof Test || o instanceof Mutant;
+		curNode = node.getUserObject();
+		boolean hasCode = curNode instanceof SourceClass || curNode instanceof Test || curNode instanceof Mutant;
 		setSummaryView(hasCode);
+		/*
+		 */
+		System.out.println("SC: " + (curNode instanceof SourceClass));
+		System.out.println("Test: " + (curNode instanceof Test));
+		System.out.println("Mutant: " + (curNode instanceof Mutant));
+		
 	}
 
 	@Override
@@ -150,6 +157,9 @@ public class TriangleWindow extends JFrame implements ActionListener, TreeSelect
 		gbc.gridy = 1;
 		gbc.gridx = 1;
 		gbc.weighty = 1;
+		// make sure codePanel knows what it's working with
+		codePanel.registerObject(curNode);
+		//System.out.println(((SourceClass) curNode).getSource());
 		add(codePanel, gbc);
 		
 		validate();
