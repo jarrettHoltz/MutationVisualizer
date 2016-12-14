@@ -6,8 +6,6 @@ Mutant only has addTest capabilities. Does it need deleteTest capabilities?
 
 Do we need tests for each accessor and mutator?
 
-Need to add javadoc comments to all functions?
-
 In Mutator.java:
 	 method updateSummary: It doesn't appear that the MutatorVizModel adds any functionality to the method. Why is it an argument to this method?
 
@@ -41,5 +39,4 @@ Tests in view to complete:
 	BarGraphTest.java
 	BarGraphBarTest.java
 
-
-Need to make tests for all of the view components.
+Need to add meaningful comments to each test file
