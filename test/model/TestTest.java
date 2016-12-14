@@ -56,7 +56,7 @@ public class TestTest {
         model.Test t = new model.Test("testName", "source", s);
 
         //Add a new mutant
-        Mutant m = new Mutant(2, LVR, "class", "newName", 3, "newSource");
+        Mutant m = new Mutant(2, LVR, "class", "newName", 2, "new\nSource");
         t.AddMutant(m);
 
         List<Mutant> expectedMutants = new ArrayList<Mutant>();

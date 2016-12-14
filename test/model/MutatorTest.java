@@ -50,7 +50,7 @@ public class MutatorTest {
         Mutator mt = new Mutator("newName");
 
         //Initialize a new Mutant
-        Mutant m = new Mutant(2, LVR, "class", "newName", 3, "newSource");
+        Mutant m = new Mutant(2, LVR, "class", "newName", 2, "new\nSource");
 
         //Check adding the mutant
         mt.addMutant(m);
@@ -68,7 +68,7 @@ public class MutatorTest {
         Mutator mt = new Mutator("newName");
 
         //Initialize a mutant to add
-        Mutant m = new Mutant(2, LVR, "class", "newName", 3, "newSource");
+        Mutant m = new Mutant(2, LVR, "class", "newName", 2, "new\nSource");
 
         //Initialize the Model to test with
         TriangleModel triMod = new TriangleModel();

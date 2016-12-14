@@ -53,7 +53,7 @@ public class SourceClassTest {
         SourceClass sc = new SourceClass("className", "source", s);
 
         //Add a new mutant
-        Mutant mutant = new Mutant(1, MutatorType.AOR, "Triangle.java", "classify", 20, "        if (a <= 0 && b <= 0 || c <= 0) {");
+        Mutant mutant = new Mutant(1, MutatorType.AOR, "Triangle.java", "classify", 1, "        if (a <= 0 && b <= 0 || c <= 0) {");
         sc.AddMutant(mutant);
 
         ArrayList<Mutant> expectedMutants = new ArrayList<Mutant>();

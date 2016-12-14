@@ -17,3 +17,29 @@ In Mutator.java:
 
 In Summary.java
 	We allow for the total to be less than the other numbers. This shouldn't be allowed (since it makes no sense).
+
+
+Tests in controller to complete:
+	TriangleParserTest.java
+	BrowserListenerTest.java
+	CodeLineMouseListenerTest.java
+	CollapsiblePanelActionTest.java
+	CollapsiblePanelListenerTest.java
+Tests in model to complete:
+	MutatorTest.java - needs updateSummary
+	DirectoryTest.java
+	TriangleModelTest.java - testConstructor
+Tests in view to complete:
+	VerticalButtonUITest.java
+	TriangleWindowTest.java
+	SummaryPanelTest.java
+	ResizeableJLabelTest.java
+	MutantTreeCellRendererTest.java
+	ComparePanelTest.java
+	BrowserPanelTest.java
+	CodePanelTest.java
+	BarGraphTest.java
+	BarGraphBarTest.java
+
+
+Need to make tests for all of the view components.

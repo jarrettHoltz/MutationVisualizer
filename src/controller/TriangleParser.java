@@ -218,4 +218,9 @@ public class TriangleParser implements MutantVizController{
 		sc.close();
 		return contents;
 	}
+
+	//Accessor
+	public MutantVizModel getModel(){
+		return this.model;
+	}
 }
