@@ -12,9 +12,9 @@ public class SourceClass extends SummaryNode implements SourceCode {
 	private ArrayList<Mutant> mutants;
 	// If the information were available, list of covering/killing tests
 	
-	public SourceClass(String className, String source_string, Summary summary) {
+	public SourceClass(String className, String sourceString, Summary summary) {
 		this.name = className;
-		this.source = source_string;
+		this.source = sourceString;
 		this.summary = summary;
 		this.mutants = new ArrayList<Mutant>();
 	}

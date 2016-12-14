@@ -50,10 +50,17 @@ public class SourceClassTest {
 
         //Initialize the SourceClass Object
         Summary s = new Summary(0,0,0,0);
-        SourceClass sc = new SourceClass("className", "source", s);
+        SourceClass sc = new SourceClass("className", "", s);
 
         //Add a new mutant
+<<<<<<< HEAD
         Mutant mutant = new Mutant(1, MutatorType.AOR, "Triangle.java", "classify", 1, "        if (a <= 0 && b <= 0 || c <= 0) {");
+=======
+        int lineNumber = 20;
+        String[] sourceCode = new String(new char[lineNumber+1]).replace("\0", " \n").split("\n");
+        sourceCode[lineNumber] = "        if (a <= 0 && b <= 0 || c <= 0) {";
+        Mutant mutant = new Mutant(1, MutatorType.AOR, sc, "classify", lineNumber, String.join("\n", sourceCode));
+>>>>>>> ebc89a27310c3733597a401350c6bfe46a0edd4d
         sc.AddMutant(mutant);
 
         ArrayList<Mutant> expectedMutants = new ArrayList<Mutant>();

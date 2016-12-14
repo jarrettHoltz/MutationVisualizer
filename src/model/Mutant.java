@@ -13,26 +13,24 @@ public class Mutant implements SourceCode {
 	private int mutantId;
 	private MutatorType mutator;
 	private MutantStatus status;
-	private String className;
+	private SourceClass sourceClass;
 	private String methodName;
 	private int lineNumber;
 	private String mutantSource;
-	private String fullSource;
 	private ArrayList<Test> tests = new ArrayList<Test>();
 	
 	public Mutant(int mutantId,
 			MutatorType mutator,
-			String className,
+			SourceClass sourceClass,
 			String methodName,
 			int lineNumber,
 			String mutantSource) {
 		
 		this.mutantId = mutantId;
 		this.mutator = mutator;
-		this.className = className;
+		this.sourceClass = sourceClass;
 		this.methodName = methodName;
 		this.lineNumber = lineNumber;
-		this.fullSource = mutantSource;
 		this.mutantSource = mutantSource.split("\n")[lineNumber-1];
 		this.status = null;
 	}
@@ -46,85 +44,79 @@ public class Mutant implements SourceCode {
 	}
 	
 	public String toString() {
-		return mutantId + " " + className + " (" + mutator + ") " + status;
+		return mutantId + " " + sourceClass.getName() + " (" + mutator + ") " + status;
 	}
 
 
 	//Accessors
-	public int getMutantId(){
+	public int getMutantId() {
 		return this.mutantId;
 	}
 
-	public MutatorType getMutator(){
+	public MutatorType getMutator() {
 		return this.mutator;
 	}
 
-	public MutantStatus getStatus(){
+	public MutantStatus getStatus() {
 		return this.status;
 	}
 
-	public String getClassName(){
-		return this.className;
+	public SourceClass getSourceClass() {
+		return this.sourceClass;
 	}
 
-	public String getMethodName(){
+	public String getMethodName() {
 		return this.methodName;
 	}
 
-	public int getLineNumber(){
+	public int getLineNumber() {
 		return this.lineNumber;
 	}
 
-	/*
+	/**
 	 * returns just the line where the mutant occurs
 	 * @see model.SourceCode#getSource()
 	 */
-	public String getSource(){
+	public String getSource() {
 		return this.mutantSource;
 	}
 
-	/*
-	 * returns the entire code with the mutant embedded
-	 */
-	public String getFullSource(){
-		return fullSource;
-	}
-	public ArrayList<Test> getMutatorTests(){
+	public ArrayList<Test> getTests() {
 		return this.tests;
 	}
 
 
 
 	//Mutators
-	// public void setMutantId(int newMutantId){
+	// public void setMutantId(int newMutantId) {
 	// 	this.mutantId = newMutantId;
 	// }
 
-	// public void setMutator(MutatorType newMutator){
+	// public void setMutator(MutatorType newMutator) {
 	// 	this.mutator = newMutator;
 	// }
 
-	public void setStatus(MutantStatus newStatus){
+	public void setStatus(MutantStatus newStatus) {
 		this.status = newStatus;
 	}
 
-	// public void setClassName(String newClassName){
+	// public void setClassName(String newClassName) {
 	// 	this.className = newClassName;
 	// }
 
-	// public void setMethodName(String newMethodName){
+	// public void setMethodName(String newMethodName) {
 	// 	this.methodName = newMethodName;
 	// }
 
-	// public void setLineNumber(int newLineNumber){
+	// public void setLineNumber(int newLineNumber) {
 	// 	this.lineNumber = newLineNumber;
 	// }
 
-	// public void setMutantSource(String newMutantSource){
+	// public void setMutantSource(String newMutantSource) {
 	// 	this.mutantSource = newMutantSource;
 	// }
 
-	// public void setTests(ArrayList<Test> newTests){
+	// public void setTests(ArrayList<Test> newTests) {
 	// 	this.tests = newTests;
 	// }
 

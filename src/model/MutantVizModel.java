@@ -25,9 +25,10 @@ public interface MutantVizModel {
 	
 	/**
 	 * Adds a source class to the model
-	 * @param source
+	 * @param path The path to this source (e.g. package.Class)
+	 * @param source The SourceClass object containing this class's data
 	 */
-	public void AddSource(SourceClass source);
+	public void AddSource(String path, SourceClass source);
 
 	/**
 	 * Adds Mutants to the model
@@ -67,14 +68,12 @@ public interface MutantVizModel {
 	public TreeNode getTestRoot();
 	
 	/**
-	 * TODO: fix this
 	 * Sets the root node of the mutant tree.
 	 * @param mutantRoot a DefaultMutableTreeNode containing the SourceDirectory for the root of the mutant tree.
 	 */
 	public void setMutantRoot(TreeNode mutantRoot);
 	
 	/**
-	 * TODO: fix this
 	 * Gets the root node of the mutant tree.
 	 * @return a DefaultMutableTreeNode containing the SourceDirectory for the root of the mutant tree.
 	 */
@@ -82,19 +81,19 @@ public interface MutantVizModel {
 	
 	/**
 	 * 
-	 * @param class_name
-	 * @param line_num
+	 * @param sourceClass
+	 * @param lineNumber
 	 * @return List of test ids that cover the line number in the class
 	 */
-	public List<Test> getTests(String class_name, int line_num);
+	public List<Test> getTestsAtLine(SourceClass sourceClass, int lineNumber);
 	
 	/**
 	 * 
-	 * @param class_name
-	 * @param line_number
-	 * @return List of mutant ids for the given class and line_number
+	 * @param sourceClass
+	 * @param lineNumber
+	 * @return List of mutant ids for the given class and line number
 	 */
-	public List<Mutant> getMutants(String class_name, int line_number);
+	public List<Mutant> getMutantsAtLine(SourceClass sourceClass, int lineNumber);
 	
 	/**
 	 * 
@@ -105,17 +104,10 @@ public interface MutantVizModel {
 	
 	/**
 	 * 
-	 * @param class_name
-	 * @return SourceClass object corresponding to the class_name
+	 * @param classPath The path to the class (e.g. package.Class)
+	 * @return SourceClass object corresponding to the classPath
 	 */
-	public SourceClass getSourceClass(String class_name);
-	
-	/**
-	 * 
-	 * @param mutant_id
-	 * @return SourceClass object corresponding to mutant_id
-	 */
-	public SourceClass getSource(int mutant_id);
+	public SourceClass getSourceClass(String classPath);
 	
 	/**
 	 * Gets the string associated with the line_number in the given class
