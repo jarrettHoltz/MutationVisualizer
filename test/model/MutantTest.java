@@ -16,7 +16,8 @@ public class MutantTest {
     public void testConstructor() {
 
         //Initialize the Mutant
-        Mutant m = new Mutant(2, LVR, "class", "newName", 2, "new\nSource");
+    	SourceClass sourceClass = new SourceClass("class", "", null);
+        Mutant m = new Mutant(2, LVR, sourceClass, "newName", 2, "new\nSource");
 
         //Check mutantId
         int actualId = m.getMutantId();
@@ -34,8 +35,8 @@ public class MutantTest {
         assertEquals(expectedStatus, actualStatus);
 
         //Check Class Name
-        String actualClass = m.getClassName();
-        String expectedClass = "class";
+        SourceClass actualClass = m.getSourceClass();
+        SourceClass expectedClass = sourceClass;
         assertEquals(expectedClass, actualClass);
 
         //Check Method Name
@@ -54,7 +55,7 @@ public class MutantTest {
         assertEquals(expectedSource, actualSource);
 
         //Check Tests
-        ArrayList<model.Test> actualTests = m.getMutatorTests();
+        ArrayList<model.Test> actualTests = m.getTests();
         ArrayList<model.Test> expectedTests = new ArrayList<model.Test>();
         assertEquals(expectedTests, actualTests);
     }
@@ -63,7 +64,8 @@ public class MutantTest {
     public void testAddTest() {
 
         //Initialize the Mutant
-        Mutant m = new Mutant(2, LVR, "class", "newName", 2, "new\nSource");
+    	SourceClass sourceClass = new SourceClass("class", "", null);
+        Mutant m = new Mutant(2, LVR, sourceClass, "newName", 2, "new\nSource");
 
         //Initialize a new test
         Summary newSum = new Summary(2, 3, 4, 5);
@@ -72,7 +74,7 @@ public class MutantTest {
         //Check Test was added successfully
         m.AddTest(test);
 
-        ArrayList<model.Test> actualTests = m.getMutatorTests();
+        ArrayList<model.Test> actualTests = m.getTests();
         ArrayList<model.Test> expectedTests = new ArrayList<model.Test>();
         expectedTests.add(test);
         assertEquals(expectedTests, actualTests);
@@ -82,7 +84,8 @@ public class MutantTest {
     public void testToString() {
 
         //Initialize the Mutant
-        Mutant m = new Mutant(2, LVR, "class", "newName", 2, "new\nSource");
+    	SourceClass sourceClass = new SourceClass("class", "", null);
+        Mutant m = new Mutant(2, LVR, sourceClass, "newName", 2, "new\nSource");
 
         String actual = m.toString();
         String expected = "2 class (LVR) null";

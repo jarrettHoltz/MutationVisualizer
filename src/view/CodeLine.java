@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
+import model.MutantStatus;
 import model.SourceCode;
 
 public class CodeLine extends JLabel {
@@ -22,12 +23,17 @@ public class CodeLine extends JLabel {
 		targets = new ArrayList<SourceCode>();
 	}
 	
-	public void setLive(boolean live) {
-		//TODO: color this
+	public void setStatus(MutantStatus status) {
+		setBackground(MutantColor.getColor(ColorContext.HIGHLIGHT, status));
+		setOpaque(true);
 	}
 
 	public void addTarget(SourceCode target) {
 		targets.add(target);
+	}
+	
+	public List<SourceCode> getTargets() {
+		return targets;
 	}
 	
 	public int getLineNumber(){

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 
@@ -48,8 +47,8 @@ public class TriangleModel implements MutantVizModel {
 	}
 
 	@Override
-	public void AddSource(SourceClass source) {
-		sources.put(source.name, source);
+	public void AddSource(String path, SourceClass source) {
+		sources.put(path, source);
 	}
 	
 	public void AddTest(Test test) {
@@ -60,7 +59,7 @@ public class TriangleModel implements MutantVizModel {
 	public void addMutant(Mutant mutant) {
 		mutants.add(mutant);
 		mutators.get(mutant.getMutator()).addMutant(mutant);
-		SourceClass source = sources.get(mutant.getClassName());
+		SourceClass source = mutant.getSourceClass();
 		source.AddMutant(mutant);
 	}
 
@@ -95,16 +94,15 @@ public class TriangleModel implements MutantVizModel {
 	}
 	
 	@Override
-	public List<Test> getTests(String class_name, int line_num) {
-		ArrayList<Test> temp_tests = new ArrayList<Test>();
-		for(Mutant mutant: this.mutants) {
-			//if(mutant.className.equals(class_name) && mutant.lineNumber == line_num) {
-			if(mutant.getClassName().equals(class_name) && mutant.getLineNumber() == line_num) {
-				//temp_tests.addAll(mutant.tests);
-				temp_tests.addAll(mutant.getMutatorTests());
+	public List<Test> getTestsAtLine(SourceClass sourceClass, int lineNum) {
+		//EXTENSION: Make this work if we actually have information about tests
+		ArrayList<Test> tempTests = new ArrayList<Test>();
+		for(Mutant mutant: sourceClass.getMutants()) {
+			if(mutant.getLineNumber() == lineNum) {
+				tempTests.addAll(mutant.getTests());
 			}
 		}
-		return temp_tests;
+		return tempTests;
 	}
 
 	@Override
@@ -113,11 +111,10 @@ public class TriangleModel implements MutantVizModel {
 	}
 
 	@Override
-	public List<Mutant> getMutants(String class_name, int line_number) {
+	public List<Mutant> getMutantsAtLine(SourceClass sourceClass, int lineNumber) {
 		ArrayList<Mutant> temp_muts = new ArrayList<Mutant>();
-		for(Mutant mutant : mutants) {
-			//if(mutant.className.equals(class_name) && mutant.lineNumber == line_number) {
-			if(mutant.getClassName().equals(class_name) && mutant.getLineNumber() == line_number) {
+		for(Mutant mutant : sourceClass.getMutants()) {
+			if(mutant.getLineNumber() == lineNumber) {
 				temp_muts.add(mutant);
 			}
 		}
@@ -126,24 +123,16 @@ public class TriangleModel implements MutantVizModel {
 
 	@Override
 	public List<Mutant> getMutants(int test_id) {
-		//return tests.get(test_id).mutants;
 		return tests.get(test_id).getMutants();
 	}
 
 	@Override
-	public SourceClass getSourceClass(String class_name) {
-		return sources.get(class_name);
+	public SourceClass getSourceClass(String classPath) {
+		return sources.get(classPath);
 	}
 
 	@Override
-	public SourceClass getSource(int mutant_id) {
-		//return sources.get(mutants.get(mutant_id - 1).className);
-		return sources.get(mutants.get(mutant_id - 1).getClassName());
-	}
-	
-	@Override
 	public String getLine(String class_name, int line) {
-		//String source = sources.get(class_name).source;
 		String source = sources.get(class_name).getSource();
 		String[] split = source.split("\\r?\\n");
 		return split[line];
@@ -156,7 +145,6 @@ public class TriangleModel implements MutantVizModel {
 	
 	@Override
 	public Mutator getMutatorForMutant(int mutant_id) {
-		//return mutators.get(mutants.get(mutant_id - 1).mutator);
 		return mutators.get(mutants.get(mutant_id - 1).getMutator());
 	}
 }

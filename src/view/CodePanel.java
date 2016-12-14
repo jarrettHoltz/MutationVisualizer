@@ -25,17 +25,15 @@ public class CodePanel extends JPanel
 	// SourceClass, Test, Mutant
 	// For colors, they are in MutantTreeCellRenderer and BarGraphBar
 	private JLabel titleLabel;
-	private MutantVizModel model;
 	private GridBagConstraints gbc;
-	private List<JLabel> codeLabels;
 	private List<MouseListener> mouseListeners;
+	private boolean isComparePanel;
 	
-	public CodePanel(MutantVizModel model, String title) {
-		this.model = model;
+	public CodePanel(String title, boolean isComparePanel) {
+		this.isComparePanel = isComparePanel;
 		setLayout(new GridBagLayout());
 		
 		mouseListeners = new ArrayList<MouseListener>();
-		codeLabels = new ArrayList<JLabel>();
 		
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
@@ -61,19 +59,44 @@ public class CodePanel extends JPanel
 	 * @param code The code to add.
 	 */
 	public void addSource(SourceCode code) {
-		String[] source = null;
-		source = code.getSource().split("\n");
-		CodeLine[] codeLines = new CodeLine[source.length];
-		int maxLines = source.length+1;
-		for(int i = 0; i < source.length; i++) {
-			codeLines[i] = new CodeLine(source[i], i+1, maxLines);
+		int mutantLineNum = -1;
+		int lineNumberOffset = 1;
+		String source = code.getSource();
+		if(code instanceof Mutant) { //comparison panels should only show the mutant line
+			Mutant m = ((Mutant)code);
+			if(isComparePanel) {
+				//This is the comparison panel, the mutant will show only one line but it should be numbered correctly
+				lineNumberOffset = m.getLineNumber();
+			} else {
+				mutantLineNum = m.getLineNumber()-1;
+				//This is the main code panel it should show the full original source too
+				source = m.getSourceClass().getSource();
+			}
+		}
+		String[] sourceLines = source.split("\n");
+		CodeLine[] codeLines = new CodeLine[sourceLines.length];
+		int maxLines = sourceLines.length+1;
+		for(int i = 0; i < sourceLines.length; i++) {
+			codeLines[i] = new CodeLine(sourceLines[i], i+lineNumberOffset, maxLines);
 			add(codeLines[i], gbc);
 			gbc.gridy++;
+			if(i == mutantLineNum) {
+				codeLines[i].setStatus(MutantStatus.LIVE);
+				CodeLine mutantLine = new CodeLine(((Mutant)code).getSource(), i+1, maxLines);
+				mutantLine.setStatus(MutantStatus.FAIL);
+				add(mutantLine, gbc);
+				gbc.gridy++;
+			}
+		}
+		
+		if(isComparePanel && code instanceof Mutant) {
+			//Color the mutant according to its status
+			codeLines[0].setStatus(((Mutant)code).getStatus());
 		}
 		
 		if(code instanceof SourceClass) {
-			boolean[] listenersAdded = new boolean[source.length];
-			MutantStatus[] lineMutantStatus = new MutantStatus[source.length];
+			boolean[] listenersAdded = new boolean[sourceLines.length];
+			MutantStatus[] lineMutantStatus = new MutantStatus[sourceLines.length];
 			for(Mutant m : ((SourceClass)code).getMutants()) {
 				int i = m.getLineNumber()-1;
 				CodeLine codeLine = codeLines[i];
@@ -94,66 +117,10 @@ public class CodePanel extends JPanel
 			}
 			for(int i = 0; i < lineMutantStatus.length; i++) {
 				if(lineMutantStatus[i] != null) { //there are mutants here, put the right color
-					codeLines[i].setBackground(MutantColor.getColor(ColorContext.HIGHLIGHT, lineMutantStatus[i]));
-					codeLines[i].setOpaque(true);					
+					codeLines[i].setStatus(lineMutantStatus[i]);
 				}
 			}
-		} else
-		if(code instanceof Mutant){
-			add(new JLabel(" "), gbc); // empty JLabel for space
-			gbc.gridy++;
-			add(new JLabel("Mutation in code"), gbc);
-			gbc.gridy++;
-			Mutant m = (Mutant) code;
-			String[] text_code = m.getFullSource().split("\n"); 
-			CodeLine m_click = new CodeLine(text_code[m.getLineNumber()-1], m.getLineNumber(), maxLines);
-			for(int i = 0; i < text_code.length; i++) {
-				if(i ==((Mutant) code).getLineNumber() - 1){
-					add(m_click, gbc);
-				} else {
-					add(new CodeLine(text_code[i], i+1, maxLines), gbc);
-				}
-				gbc.gridy++;
-			}
-			MutantStatus status = m.getStatus();
-			if(status == MutantStatus.LIVE) {
-				m_click.setBackground(MutantColor.getColor(ColorContext.HIGHLIGHT, MutantStatus.LIVE));
-			} else if(status != MutantStatus.LIVE) {
-				m_click.setBackground(MutantColor.getColor(ColorContext.HIGHLIGHT, MutantStatus.FAIL));
-			}
-			
-			//System.out.println(m.getStatus());
-			m_click.setOpaque(true);
-		}
-		
-	}
-	
-	public void addSource(List<Mutant> mutants){
-		MutantStatus[] lineMutantStatus = new MutantStatus[mutants.size()];
-		CodeLine[] mutantLines = new CodeLine[mutants.size()];
-		int maxLines = mutants.size()+1;
-		int i = 0;
-		for(Mutant m : mutants) {
-			if(m != null){
-				mutantLines[i] = new CodeLine(m.getSource(), m.getLineNumber(), maxLines);
-				add(mutantLines[i], gbc);
-				gbc.gridy++;
-				
-				MutantStatus status = m.getStatus();
-				if(status == MutantStatus.LIVE) {
-					lineMutantStatus[i] = MutantStatus.LIVE;
-				} else if(lineMutantStatus[i] != MutantStatus.LIVE) {
-					lineMutantStatus[i] = MutantStatus.FAIL;
-				}
-				i++;
-			}
-		}
-		for(int j = 0; j < lineMutantStatus.length; j++) {
-			if(lineMutantStatus[j] != null) { //there are mutants here, put the right color
-				mutantLines[j].setBackground(MutantColor.getColor(ColorContext.HIGHLIGHT, lineMutantStatus[j]));
-				mutantLines[j].setOpaque(true);					
-			}
-		}
+		} 
 	}
 	
 	/**

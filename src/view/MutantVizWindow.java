@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
@@ -9,20 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import controller.CollapsiblePanelAction;
-import model.Mutant;
 import model.MutantVizModel;
-import model.SourceClass;
 import model.SourceCode;
-import model.Test;
 
 /**
  * Manages the various views of the mutation visualizer for the Triangle program.
@@ -33,11 +31,10 @@ public class MutantVizWindow extends JFrame
 	private static final long serialVersionUID = -2387852887507443608L;
 	
 	private BrowserPanel browserPanel;
+	private JPanel contentPanel;
 	private SummaryPanel summaryPanel;
-	private CodePanel codePanel;
-	private JScrollPane codeScrollPane;
-	private CodePanel comparePanel; //TODO: make this
-	private MutantVizModel model;
+	private CodePanel codePanel, comparePanel;
+	private JScrollPane codeScrollPane, compareScrollPane;
 	
 	/**
 	 * These constraints hold the default layout parameters,
@@ -51,31 +48,27 @@ public class MutantVizWindow extends JFrame
 
 	public MutantVizWindow(MutantVizModel model) {
 		super("Mutation Visualizer");
-		setLayout(new GridBagLayout());
-		this.model = model;
+		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.LINE_AXIS));
 		expandButtons = new ArrayList<JButton>();
 		
 		buildPanels(model);
 		
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weighty = 1.0;
+		gbc.weighty = 1;
 		gbc.gridy = 0;
 
-		gbc.gridx = 0;
-		gbc.weightx = 0.2;
-		gbc.gridheight = 2;
 		JScrollPane browserScrollPane = new JScrollPane(browserPanel);
 		browserScrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		add(browserScrollPane, gbc);
-		gbc.gridheight = 1;
+		browserScrollPane.setPreferredSize(new Dimension(1000,1000));
+		add(browserScrollPane);
+		
+		contentPanel = new JPanel(new GridBagLayout());
+		contentPanel.setPreferredSize(new Dimension(4000,1000));
+		add(contentPanel);//Dummy panel to make sure browserPanel doesn't resize when summary/code/compare are manipulated
 		
 		setSummaryView(false);
 		
-//		gbc.gridx = 2;
-//		gbc.weightx = 0.1;
-//		add(collapsedComparePanel, gbc);
-				
 		setSize(1600, 900);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setExtendedState(MAXIMIZED_BOTH);
@@ -86,10 +79,12 @@ public class MutantVizWindow extends JFrame
 		browserPanel = new BrowserPanel(model);
 		browserPanel.setProgram("Triangle");
 		summaryPanel = new SummaryPanel();
-		codePanel = new CodePanel(model, "Code");
+		codePanel = new CodePanel("Code", false);
 		codeScrollPane = new JScrollPane(codePanel);
 		codeScrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		comparePanel = new CodePanel(model, "Mutations");
+		comparePanel = new CodePanel("Mutations", true);
+		compareScrollPane = new JScrollPane(comparePanel);
+		compareScrollPane.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.BOTH;
@@ -130,54 +125,55 @@ public class MutantVizWindow extends JFrame
 			codePanel.addSource((SourceCode)contents);
 			codePanel.packSource();
 			codePanel.setTitle(contents.toString());
-			setCodeView();
+			setCodeView(false); //No code also has a summary, at least now?
 		}
 		else {
-			setSummaryView(hasCode);
+			setSummaryView(hasCode); //No summary also has code, at least now?
 		}
 	}
 
-	public void setCodeView() {
-		remove(summaryPanel);
-		remove(collapsedCodePanel);
-		remove(comparePanel);
+	public void setCodeView(boolean hasSummary) {
+		contentPanel.removeAll();
+//		remove(summaryPanel);
+//		remove(collapsedCodePanel);
+//		remove(comparePanel);
 		
-		gbc.gridy = 0;
-		gbc.gridwidth = 2;
-		gbc.weightx = 1;
-		gbc.weighty = 0.05;
-		add(collapsedSummaryPanel, gbc);
-		gbc.gridwidth = 1;
+		if(hasSummary) {
+			gbc.gridy = 1;
+			gbc.gridwidth = 2;
+			gbc.weightx = 0.3;
+			gbc.weighty = 0.05;
+			add(collapsedSummaryPanel, gbc);
+			gbc.gridwidth = 1;
+		}
 		
-		gbc.gridy = 1;
+		gbc.gridy = 2;
 		gbc.gridx = 1;
 		gbc.weighty = 1;
-		// make sure codePanel knows what it's working with
-//		codePanel.addSource(curNode);
-		//System.out.println(((SourceClass) curNode).getSource());
-		add(codeScrollPane, gbc);
+		contentPanel.add(codeScrollPane, gbc);
 		
 		validate();
 		repaint();
 	}
 	
 	public void setSummaryView(boolean hasCode) {
-		remove(codeScrollPane);
-		remove(collapsedSummaryPanel);
-		remove(comparePanel);
+		contentPanel.removeAll();
+//		remove(codeScrollPane);
+//		remove(collapsedSummaryPanel);
+//		remove(comparePanel);
 		
-		gbc.gridy = 0;
+		gbc.gridy = 1;
 		gbc.gridx = 1;
 		gbc.weightx = 0.8;
 		gbc.weighty = 1;
 		gbc.gridwidth = 2;
-		add(summaryPanel, gbc);
+		contentPanel.add(summaryPanel, gbc);
 		gbc.gridwidth = 1;
 		
 		if(hasCode) {
-			gbc.gridy = 1;
+			gbc.gridy = 2;
 			gbc.weighty = 0.05;
-			add(collapsedCodePanel, gbc);
+			contentPanel.add(collapsedCodePanel, gbc);
 		}
 		
 		validate();
@@ -186,27 +182,23 @@ public class MutantVizWindow extends JFrame
 	
 
 	public void setComparison(CodeLine source) {
-
-		int mutantLineNum = source.getLineNumber();
-		//TODO: make name not hard-coded
-		List<Mutant> mutants = model.getMutants("Triangle", mutantLineNum);
+		List<SourceCode> targets = source.getTargets();
 		
-		if(!mutants.isEmpty()){
+		comparePanel.setTitle("Mutants at line " + source.getLineNumber());
+		if(!targets.isEmpty()){
 			comparePanel.clearSource();
-			comparePanel.addSource(mutants);
 			comparePanel.packSource();
-		
-			GridBagConstraints c = new GridBagConstraints();
-			c.fill = GridBagConstraints.BOTH;
-			c.weightx = 1.0;
-			c.gridwidth = 1;
-			c.gridheight = 2;
-			c.weighty = 1.0;
-			add(comparePanel, c);
-			
-			validate();
-			repaint();
+			for(SourceCode target : targets) {
+				comparePanel.addSource(target);
+				comparePanel.packSource();
+			}		
 		}
+		gbc.gridx = 2;
+		gbc.gridy = 2;
+		contentPanel.add(compareScrollPane, gbc);
+		
+		validate();
+		repaint();
 		
 	}
 	

@@ -18,7 +18,7 @@ public class CollapsiblePanelListener extends WindowListener implements ActionLi
 		CollapsiblePanelAction action = CollapsiblePanelAction.valueOf(command);
 		switch(action) {
 			case EXPAND_CODE:
-				window.setCodeView();
+				window.setCodeView(true);
 				break;
 			case EXPAND_SUMMARY:
 				window.setSummaryView(true);
