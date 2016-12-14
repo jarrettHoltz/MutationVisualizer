@@ -10,6 +10,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import model.Mutant;
+import model.MutantStatus;
 import model.SummaryNode;
 
 public class MutantTreeCellRenderer extends DefaultTreeCellRenderer
@@ -38,7 +39,7 @@ public class MutantTreeCellRenderer extends DefaultTreeCellRenderer
 			if(contents instanceof Mutant) {
 				Mutant mutant = (Mutant) contents;
 				//if(mutant.status.equals("LIVE")) {
-				if(mutant.getStatus().equals("LIVE")) {
+				if(mutant.getStatus() == MutantStatus.LIVE) {
 					setLiveColor();
 				}
 				else {
