@@ -134,9 +134,6 @@ public class MutantVizWindow extends JFrame
 
 	public void setCodeView(boolean hasSummary) {
 		contentPanel.removeAll();
-//		remove(summaryPanel);
-//		remove(collapsedCodePanel);
-//		remove(comparePanel);
 		
 		if(hasSummary) {
 			gbc.gridy = 1;
@@ -158,9 +155,6 @@ public class MutantVizWindow extends JFrame
 	
 	public void setSummaryView(boolean hasCode) {
 		contentPanel.removeAll();
-//		remove(codeScrollPane);
-//		remove(collapsedSummaryPanel);
-//		remove(comparePanel);
 		
 		gbc.gridy = 1;
 		gbc.gridx = 1;
@@ -184,7 +178,6 @@ public class MutantVizWindow extends JFrame
 	public void setComparison(CodeLine source) {
 		List<SourceCode> targets = source.getTargets();
 		
-		comparePanel.setTitle("Mutants at line " + source.getLineNumber());
 		if(!targets.isEmpty()){
 			comparePanel.clearSource();
 			comparePanel.packSource();
@@ -193,6 +186,7 @@ public class MutantVizWindow extends JFrame
 				comparePanel.packSource();
 			}		
 		}
+		comparePanel.setTitle("Mutants at line " + source.getLineNumber());
 		gbc.gridx = 2;
 		gbc.gridy = 2;
 		contentPanel.add(compareScrollPane, gbc);
