@@ -16,7 +16,7 @@ public class MutantTest {
     public void testConstructor() {
 
         //Initialize the Mutant
-        Mutant m = new Mutant(2, LVR, "class", "newName", 3, "newSource");
+        Mutant m = new Mutant(2, LVR, "class", "newName", 2, "new\nSource");
 
         //Check mutantId
         int actualId = m.getMutantId();
@@ -45,12 +45,12 @@ public class MutantTest {
 
         //Check Line Number
         int actualLine = m.getLineNumber();
-        int expectedLine = 3;
+        int expectedLine = 2;
         assertEquals(expectedLine, actualLine);
 
         //Check Mutant Source
         String actualSource = m.getSource();
-        String expectedSource = "newSource";
+        String expectedSource = "Source";
         assertEquals(expectedSource, actualSource);
 
         //Check Tests
@@ -63,7 +63,7 @@ public class MutantTest {
     public void testAddTest() {
 
         //Initialize the Mutant
-        Mutant m = new Mutant(2, LVR, "class", "newName", 3, "newSource");
+        Mutant m = new Mutant(2, LVR, "class", "newName", 2, "new\nSource");
 
         //Initialize a new test
         Summary newSum = new Summary(2, 3, 4, 5);
@@ -82,10 +82,10 @@ public class MutantTest {
     public void testToString() {
 
         //Initialize the Mutant
-        Mutant m = new Mutant(2, LVR, "class", "newName", 3, "newSource");
+        Mutant m = new Mutant(2, LVR, "class", "newName", 2, "new\nSource");
 
         String actual = m.toString();
-        String expected = "2 class (LVR) unknown";
+        String expected = "2 class (LVR) null";
         assertEquals(expected, actual);
     }
 

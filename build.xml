@@ -11,18 +11,19 @@
 <!-- Target to initialize build -->
     <target name="init">
         <mkdir dir="bin"/>
-        <mkdir dir="bin/classes"/>
+        <!--mkdir dir="bin/classes"/ -->
     </target>
 
 <!-- Target to clean up -->
     <target name="clean" description="Clean">
         <delete dir="bin"/>
+        <delete dir="jar"/>
     </target>
 
 <!-- Target to build jar file -->
-    <target name="jar">
-        <mkdir dir="bin/jar"/>
-        <jar destfile="bin/jar/TriangleVisualization.jar" basedir="bin/classes">
+    <target name="jar" depends="compile">
+        <mkdir dir="jar"/>
+        <jar destfile="jar/TriangleVisualization.jar" basedir="bin">
             <manifest>
                 <attribute name="Main-Class" value="main.TriangleVisualization"/>
             </manifest>
@@ -31,14 +32,14 @@
 
 <!-- Target to run the program -->
     <target name="run" depends="jar" description="Run the program">
-        <java jar="bin/jar/TriangleVisualization.jar" fork="true"/>
+        <java jar="jar/TriangleVisualization.jar" fork="true"/>
     </target>
 
 <!-- Target to compile the project -->
     <target name="compile" depends="init" description="Compile">
         <javac includeantruntime="true"
                srcdir="${src}"
-               destdir="bin/classes"
+               destdir="bin"
                source="1.7"
                target="1.7"
              compiler="javac1.7"
@@ -51,7 +52,7 @@
     <target name="compile.tests" depends="compile" description="Compile all tests">
         <javac includeantruntime="true"
                srcdir="${test}"
-              destdir="bin/classes"
+              destdir="bin"
                source="1.7"
                target="1.7"
              compiler="javac1.7"
