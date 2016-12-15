@@ -212,4 +212,9 @@ public class MutantVizWindow extends JFrame
 		codePanel.addNewMouseListener(listener);
 		comparePanel.addNewMouseListener(listener);
 	}
+
+	//Accessors
+	public CodePanel getCodePanel(){
+		return this.codePanel;
+	}
 }
