@@ -12,13 +12,20 @@ import java.util.ArrayList;
 public class CollapsiblePanelActionTest {
 
     /*
-     * Test the 
+     * Test the different parts of the enum object
      */
     @Test
-    public void test1() {
-        // Type actual = Triangle.classify(1, 1, 1);
-        // Type expected = EQUILATERAL;
-        // assertEquals (expected, actual);
-        assert(true);
+    public void testCode() {
+        assertNotNull(CollapsiblePanelAction.valueOf("EXPAND_CODE"));
+    }
+
+    @Test
+    public void testComparison() {
+        assertNotNull(CollapsiblePanelAction.valueOf("EXPAND_COMPARISON"));
+    }
+
+    @Test
+    public void testSummary() {
+        assertNotNull(CollapsiblePanelAction.valueOf("EXPAND_SUMMARY"));
     }
 }
