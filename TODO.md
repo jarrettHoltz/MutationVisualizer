@@ -25,9 +25,7 @@ Tests in view to complete:
 	SummaryPanelTest.java
 	ResizeableJLabelTest.java
 	MutantVizWindowTest.java
-	MutantTreeCellRendererTest.java
-	MutantColorTest.java
-	ColorContextTest.java
+	MutantTreeCellRendererTest.java - need to do the treeCellRenderer test
 	CodePanelTest.java
 	BrowserPanelTest.java - need to do setTreeSelection, and also check jTree
 	BarGraphBarTest.java - dont know how to test private function

@@ -223,6 +223,10 @@ public class MutantVizWindow extends JFrame
 		return this.codePanel;
 	}
 
+	public BrowserPanel getBrowserPanel(){
+		return this.browserPanel;
+	}
+
 	public List<JButton> getButtons(){
 		return this.expandButtons;
 	}

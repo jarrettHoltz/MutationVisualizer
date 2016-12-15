@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import view.ColorContext;
 
 /**
  * Test class for the ColorContext implementation.
@@ -15,10 +16,17 @@ public class ColorContextTest {
      * Test the 
      */
     @Test
-    public void test1() {
-        // Type actual = Triangle.classify(1, 1, 1);
-        // Type expected = EQUILATERAL;
-        // assertEquals (expected, actual);
-        assert(true);
+    public void testHIGHLIGHT() {
+        assertNotNull(ColorContext.valueOf("HIGHLIGHT"));
+    }
+
+    @Test
+    public void testSELECTED() {
+        assertNotNull(ColorContext.valueOf("SELECTED"));
+    }
+
+    @Test
+    public void testSOLID() {
+        assertNotNull(ColorContext.valueOf("SOLID"));
     }
 }

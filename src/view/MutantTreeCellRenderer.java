@@ -83,4 +83,13 @@ public class MutantTreeCellRenderer extends DefaultTreeCellRenderer
 		setBackgroundNonSelectionColor(default_color);
 		setBackgroundSelectionColor(default_color_selected);
 	}
+
+	//Accessors
+	public Color getDefaultColor(){
+		return this.default_color;
+	}
+
+	public Color getDefaultColorSelected(){
+		return this.default_color_selected;
+	}
 }

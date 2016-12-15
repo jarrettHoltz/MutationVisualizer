@@ -15,10 +15,9 @@ public class CodePanelTest {
      * Test the 
      */
     @Test
-    public void test1() {
-        // Type actual = Triangle.classify(1, 1, 1);
-        // Type expected = EQUILATERAL;
-        // assertEquals (expected, actual);
-        assert(true);
+    public void testConstructor() {
+        //Create the JPanel
+
+        CodePanel cp = new CodePanel("title", false);
     }
 }
