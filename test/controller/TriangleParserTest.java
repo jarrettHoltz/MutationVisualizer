@@ -29,7 +29,7 @@ import javax.swing.tree.TreeNode;
 public class TriangleParserTest {
 
     /*
-     * Test the Constructor
+     * Test the Build Model method
      */
     @Test
     public void testBuildModel() {
@@ -47,6 +47,12 @@ public class TriangleParserTest {
         MutantVizModel expectedModel = tModel;
         assertEquals(expectedModel, actualModel);
 
+
+
+
+
+
+
         //Check the parsed Summary
         Summary expectedSummary = new Summary(150,150,10,140);
         Summary actualSummary = tModel.getSummary();
@@ -56,57 +62,151 @@ public class TriangleParserTest {
         assertEquals(expectedSummary.getKilled(), actualSummary.getKilled());
 
         //Check the parsed Source
-        // DefaultMutableTreeNode expectedRoot = new DefaultMutableTreeNode(new Directory("src", tModel.getSummary()));
-        // DefaultMutableTreeNode triangle = new DefaultMutableTreeNode(new Directory("triangle", tModel.getSummary()));
-        // expectedRoot.add(triangle);
+        Directory expectedDirRoot = new Directory("src", tModel.getSummary());
+        Directory expectedDirChild = new Directory("triangle", tModel.getSummary());
+        
+        //Check the root
+        Object actualRootObject = ((DefaultMutableTreeNode)tModel.getSourceRoot()).getUserObject();
+        assert actualRootObject instanceof Directory;
+        Directory actualRootDir = (Directory)actualRootObject;
+        Summary actualRootSummary = actualRootDir.getSummary();
+        assertEquals(expectedSummary.getTotal(), actualRootSummary.getTotal());
+        assertEquals(expectedSummary.getCovered(), actualRootSummary.getCovered());
+        assertEquals(expectedSummary.getLive(), actualRootSummary.getLive());
+        assertEquals(expectedSummary.getKilled(), actualRootSummary.getKilled());
+        
+        String actualRootName = actualRootDir.getName();
+        String expectedRootName = "src";
+        assertEquals(expectedRootName, actualRootName);
 
-        // String source = null;
-        // try {
-        //     String sourcePath = "src" + "/triangle/Triangle.java";
-        //     Scanner sc = new Scanner(new File(sourcePath));
-        //     String contents = sc.useDelimiter("\\Z").next();
-        //     sc.close();
-        //     source = contents;
-        // }catch (FileNotFoundException e) {
-        //     e.printStackTrace();
-        // }
+        //Check the child
+        Object actualChildObject = ((DefaultMutableTreeNode)tModel.getSourceRoot().getChildAt(0)).getUserObject();
+        assert actualChildObject instanceof Directory;
+        Directory actualChildDir = (Directory)actualChildObject;
+        Summary actualChildSummary = actualChildDir.getSummary();
+        assertEquals(expectedSummary.getTotal(), actualChildSummary.getTotal());
+        assertEquals(expectedSummary.getCovered(), actualChildSummary.getCovered());
+        assertEquals(expectedSummary.getLive(), actualChildSummary.getLive());
+        assertEquals(expectedSummary.getKilled(), actualChildSummary.getKilled());
+        
+        String actualChildName = actualChildDir.getName();
+        String expectedChildName = "triangle";
+        assertEquals(expectedChildName, actualChildName);
 
-        // model.Test test_class = new model.Test("TriangleTest", source, tModel.getSummary());
-        // triangle.add(new DefaultMutableTreeNode(test_class));
 
-        // TreeNode actualRoot = tModel.getSourceRoot();
-        // assertEquals(expectedRoot, actualRoot);
+
+
+
+
+
 
         //Check the parsed Tests
+        expectedDirRoot = new Directory("test", tModel.getSummary());
+        expectedDirChild = new Directory("triangle", tModel.getSummary());
+        
+        //Check the root
+        actualRootObject = ((DefaultMutableTreeNode)tModel.getTestRoot()).getUserObject();
+        assert actualRootObject instanceof Directory;
+        actualRootDir = (Directory)actualRootObject;
+        actualRootSummary = actualRootDir.getSummary();
+        assertEquals(expectedSummary.getTotal(), actualRootSummary.getTotal());
+        assertEquals(expectedSummary.getCovered(), actualRootSummary.getCovered());
+        assertEquals(expectedSummary.getLive(), actualRootSummary.getLive());
+        assertEquals(expectedSummary.getKilled(), actualRootSummary.getKilled());
+        
+        actualRootName = actualRootDir.getName();
+        expectedRootName = "test";
+        assertEquals(expectedRootName, actualRootName);
+
+        //Check the child
+        actualChildObject = ((DefaultMutableTreeNode)tModel.getTestRoot().getChildAt(0)).getUserObject();
+        assert actualChildObject instanceof Directory;
+        actualChildDir = (Directory)actualChildObject;
+        actualChildSummary = actualChildDir.getSummary();
+        assertEquals(expectedSummary.getTotal(), actualChildSummary.getTotal());
+        assertEquals(expectedSummary.getCovered(), actualChildSummary.getCovered());
+        assertEquals(expectedSummary.getLive(), actualChildSummary.getLive());
+        assertEquals(expectedSummary.getKilled(), actualChildSummary.getKilled());
+        
+        actualChildName = actualChildDir.getName();
+        expectedChildName = "triangle";
+        assertEquals(expectedChildName, actualChildName);
+
+
+
+
+
+
+
+
 
         //Check the parsed Mutants
+        expectedDirRoot = new Directory("mutants", tModel.getSummary());
+        expectedDirChildAll = new Directory("all", tModel.getSummary());
+        
+        //Check the root
+        actualRootObject = ((DefaultMutableTreeNode)tModel.getMutantRoot()).getUserObject();
+        assert actualRootObject instanceof Directory;
+        actualRootDir = (Directory)actualRootObject;
+        actualRootSummary = actualRootDir.getSummary();
+        assertEquals(expectedSummary.getTotal(), actualRootSummary.getTotal());
+        assertEquals(expectedSummary.getCovered(), actualRootSummary.getCovered());
+        assertEquals(expectedSummary.getLive(), actualRootSummary.getLive());
+        assertEquals(expectedSummary.getKilled(), actualRootSummary.getKilled());
+        
+        actualRootName = actualRootDir.getName();
+        expectedRootName = "mutants";
+        assertEquals(expectedRootName, actualRootName);
+
+        //Check the child
+        actualChildObject = ((DefaultMutableTreeNode)tModel.getMutantRoot().getChildAt(0)).getUserObject();
+        assert actualChildObject instanceof Directory;
+        actualChildDir = (Directory)actualChildObject;
+        actualChildSummary = actualChildDir.getSummary();
+        assertEquals(expectedSummary.getTotal(), actualChildSummary.getTotal());
+        assertEquals(expectedSummary.getCovered(), actualChildSummary.getCovered());
+        assertEquals(expectedSummary.getLive(), actualChildSummary.getLive());
+        assertEquals(expectedSummary.getKilled(), actualChildSummary.getKilled());
+        
+        actualChildName = actualChildDir.getName();
+        expectedChildName = "all";
+        assertEquals(expectedChildName, actualChildName);
+
+        //Check each type of Mutator
+        int i = 1;
+        for(MutatorType expectedType : MutatorType.values()) {
+            actualChildObject = ((DefaultMutableTreeNode)tModel.getMutantRoot().getChildAt(i)).getUserObject();
+            assert actualChildObject instanceof MutatorType;
+            MutatorType actualType = (MutatorType)actualChildObject;
+            assertEquals(expectedType, actualType);
+            i++;
+        }
+
+
+
 
         //Check the parsed Killed
 
-    }
 
-    @Test
-    public void testParseSummary() {
-        
-    }
 
-    @Test
-    public void testParseMutants() {
-        
-    }
 
-    @Test
-    public void testParseSource() {
-        
-    }
 
-    @Test
-    public void testParseTests() {
-        
-    }
 
-    @Test
-    public void testSlurpFile() {
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
