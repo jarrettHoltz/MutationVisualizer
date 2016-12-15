@@ -2,10 +2,6 @@ Notes on what needs to be done:
 
 The addition of accessors and mutators was successful, but I think that a lot of the mutators can be deleted as I don't believe they are used anywhere (which actually makes the visibiilty of our fields better). Need to delete the mutators that are not used.
 
-Mutant only has addTest capabilities. Does it need deleteTest capabilities?
-
-Do we need tests for each accessor and mutator?
-
 In Mutator.java:
 	 method updateSummary: It doesn't appear that the MutatorVizModel adds any functionality to the method. Why is it an argument to this method?
 
@@ -18,25 +14,22 @@ In Summary.java
 
 
 Tests in controller to complete:
-	TriangleParserTest.java
-	BrowserListenerTest.java
-	CodeLineMouseListenerTest.java
-	CollapsiblePanelActionTest.java
-	CollapsiblePanelListenerTest.java
+	TriangleParserTest.java - need to look over again
+	BrowserListenerTest.java - need to get testValueChanged working
+	CodeLineMouseListenerTest.java - need mouse clicked test
 Tests in model to complete:
 	MutatorTest.java - needs updateSummary
-	DirectoryTest.java
 	TriangleModelTest.java - testConstructor
 Tests in view to complete:
-	VerticalButtonUITest.java
-	TriangleWindowTest.java
+	VerticalButtonUITest.java - paint and preferredsize
 	SummaryPanelTest.java
 	ResizeableJLabelTest.java
+	MutantVizWindowTest.java
 	MutantTreeCellRendererTest.java
-	ComparePanelTest.java
-	BrowserPanelTest.java
+	MutantColorTest.java
+	ColorContextTest.java
 	CodePanelTest.java
-	BarGraphTest.java
-	BarGraphBarTest.java
+	BrowserPanelTest.java - need to do setTreeSelection, and also check jTree
+	BarGraphBarTest.java - dont know how to test private function
 
 Need to add meaningful comments to each test file
