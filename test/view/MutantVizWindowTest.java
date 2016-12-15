@@ -6,10 +6,10 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 /**
- * Test class for the TriangleWindow implementation.
+ * Test class for the MutantVizWindow implementation.
  * @author mlimbird
  */
-public class TriangleWindowTest {
+public class MutantVizWindowTest {
 
     /*
      * Test the 

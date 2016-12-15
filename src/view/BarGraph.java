@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 public class BarGraph extends JPanel
 {
 	private static final long serialVersionUID = -7084023771083447286L;
-	private GridBagConstraints gbc;
+	private GridBagConstraints gbc, constraints;
 	private JPanel labelPanel, barPanel;
 	
 	public BarGraph() {
@@ -46,5 +46,22 @@ public class BarGraph extends JPanel
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		barPanel.add(new BarGraphBar(sections, labels, null), gbc);
 		gbc.gridy += 1;
+	}
+
+	//Accessors
+	public GridBagConstraints getGBC(){
+		return this.gbc;
+	}
+
+	// public GridBagConstraints getConstraints(){
+	// 	return this.constraints;
+	// }
+
+	public JPanel getLabelPanel(){
+		return this.labelPanel;
+	}
+
+	public JPanel getBarPanel(){
+		return this.barPanel;
 	}
 }

@@ -93,4 +93,10 @@ public class VerticalButtonUI extends BasicButtonUI {
 
         g2.setTransform( tr );
     }
+
+
+    //Accessor
+    public int getAngle(){
+        return this.angle;
+    }
 }

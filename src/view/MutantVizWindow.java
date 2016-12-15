@@ -35,6 +35,7 @@ public class MutantVizWindow extends JFrame
 	private SummaryPanel summaryPanel;
 	private CodePanel codePanel, comparePanel;
 	private JScrollPane codeScrollPane, compareScrollPane;
+	private String currentView;
 	
 	/**
 	 * These constraints hold the default layout parameters,
@@ -113,6 +114,7 @@ public class MutantVizWindow extends JFrame
 		}
 		button.setActionCommand(actionCommand);
 		//TODO: style this to look more like a panel and less like a button
+		expandButtons.add(button);
 		return button;
 	}
 	
@@ -149,6 +151,7 @@ public class MutantVizWindow extends JFrame
 		gbc.weighty = 1;
 		contentPanel.add(codeScrollPane, gbc);
 		
+		currentView = "CodeView";
 		validate();
 		repaint();
 	}
@@ -170,6 +173,7 @@ public class MutantVizWindow extends JFrame
 			contentPanel.add(collapsedCodePanel, gbc);
 		}
 		
+		currentView = "SummaryView";
 		validate();
 		repaint();
 	}
@@ -191,6 +195,7 @@ public class MutantVizWindow extends JFrame
 		gbc.gridy = 2;
 		contentPanel.add(compareScrollPane, gbc);
 		
+		currentView = "ComparisonView";
 		validate();
 		repaint();
 		
@@ -216,5 +221,13 @@ public class MutantVizWindow extends JFrame
 	//Accessors
 	public CodePanel getCodePanel(){
 		return this.codePanel;
+	}
+
+	public List<JButton> getButtons(){
+		return this.expandButtons;
+	}
+
+	public String getCurrentView(){
+		return this.currentView;
 	}
 }

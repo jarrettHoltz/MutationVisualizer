@@ -6,10 +6,10 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 /**
- * Test class for the ComparePanel implementation.
+ * Test class for the ColorContext implementation.
  * @author mlimbird
  */
-public class ComparePanelTest {
+public class ColorContextTest {
 
     /*
      * Test the 

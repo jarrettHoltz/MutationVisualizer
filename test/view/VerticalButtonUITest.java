@@ -12,13 +12,25 @@ import java.util.ArrayList;
 public class VerticalButtonUITest {
 
     /*
-     * Test the 
+     * Test the constructor
      */
     @Test
-    public void test1() {
-        // Type actual = Triangle.classify(1, 1, 1);
-        // Type expected = EQUILATERAL;
-        // assertEquals (expected, actual);
-        assert(true);
+    public void testConstructor() {
+        //Instantiate the object
+        VerticalButtonUI vbUI = new VerticalButtonUI(100);
+
+        int expectedAngle = 100;
+        int actualAngle = vbUI.getAngle();
+        assertEquals(expectedAngle, actualAngle);
+    }
+
+    @Test
+    public void testPreferredSize() {
+        //Not sure how to do this
+    }
+
+    @Test
+    public void testPaint() {
+        //Not sure how to do this
     }
 }

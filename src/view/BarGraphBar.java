@@ -65,4 +65,21 @@ public class BarGraphBar extends JPanel
 			barSections[i].setPreferredSize(new Dimension((int)(sections[i]*total), 40));
 		}
 	}
+
+	//Accessors
+	public JPanel[] getBarSections(){
+		return this.barSections;
+	}
+
+	public double[] getSections(){
+		return this.sections;
+	}
+
+
+
+
+
+
+
+
 }
