@@ -5,6 +5,10 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import model.TriangleModel;
+import model.MutantVizModel;
+import view.MutantVizWindow;
+
 /**
  * Test class for the BrowserListener implementation.
  * @author mlimbird
@@ -12,13 +16,22 @@ import java.util.ArrayList;
 public class BrowserListenerTest {
 
     /*
-     * Test the 
+     * Test the Constructor
      */
     @Test
-    public void test1() {
-        // Type actual = Triangle.classify(1, 1, 1);
-        // Type expected = EQUILATERAL;
-        // assertEquals (expected, actual);
-        assert(true);
+    public void testConstructor() {
+        //Setup the environment
+        TriangleModel tModel = new TriangleModel();
+        TriangleParser parser = new TriangleParser();
+        parser.buildModel(tModel,"test_files/triangle/mutation_results", "test_files/triangle/src", "test_files/triangle/test" );
+        MutantVizWindow mutantVizW = new MutantVizWindow(tModel);
+    
+        //Instantiate a BrowserListener
+        BrowserListener bLis = new BrowserListener(mutantVizW);
+
+        //Check that the window was attached
+        MutantVizWindow expectedWindow = mutantVizW;
+        MutantVizWindow actualWindow = bLis.getWindow();
+        assertEquals(expectedWindow, actualWindow);
     }
 }

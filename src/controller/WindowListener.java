@@ -8,5 +8,9 @@ public abstract class WindowListener {
 	protected void attachWindow(MutantVizWindow window) {
 		this.window = window;
 	}
-	
+
+	//Accessor
+	public MutantVizWindow getWindow(){
+		return this.window;
+	}
 }
