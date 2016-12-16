@@ -56,11 +56,11 @@ public class MutantVizWindowTest {
         assert actualLayout instanceof BoxLayout;
 
         //Check the workings of buildPanels
-        BrowserPanel expectedBPanel = new BrowserPanel(model);
+        String expectedBTitle = "Browser: Triangle";
         BrowserPanel actualBPanel = view.getBrowserPanel();
-        assertEquals(expectedBPanel, actualBPanel);
+        assertEquals(expectedBTitle, actualBPanel.getPanelTitle().getText());
         
-        //String expectedBTitle = "Triangle";
+        
 
 
     }

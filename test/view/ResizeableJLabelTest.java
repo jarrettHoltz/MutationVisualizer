@@ -15,10 +15,11 @@ public class ResizeableJLabelTest {
      * Test the 
      */
     @Test
-    public void test1() {
-        // Type actual = Triangle.classify(1, 1, 1);
-        // Type expected = EQUILATERAL;
-        // assertEquals (expected, actual);
-        assert(true);
+    public void testConstructor() {
+        //Instantiate the object
+        ResizeableJLabel rjl = new ResizeableJLabel("NewText");
+        String actualText = rjl.getText();
+        String expectedText = "NewText";
+        assertEquals(expectedText, actualText);
     }
 }

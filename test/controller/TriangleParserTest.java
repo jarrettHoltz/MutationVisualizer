@@ -49,10 +49,6 @@ public class TriangleParserTest {
 
 
 
-
-
-
-
         //Check the parsed Summary
         Summary expectedSummary = new Summary(150,150,10,140);
         Summary actualSummary = tModel.getSummary();
@@ -95,11 +91,6 @@ public class TriangleParserTest {
 
 
 
-
-
-
-
-
         //Check the parsed Tests
         expectedDirRoot = new Directory("test", tModel.getSummary());
         expectedDirChild = new Directory("triangle", tModel.getSummary());
@@ -131,12 +122,6 @@ public class TriangleParserTest {
         actualChildName = actualChildDir.getName();
         expectedChildName = "triangle";
         assertEquals(expectedChildName, actualChildName);
-
-
-
-
-
-
 
 
 
@@ -172,41 +157,9 @@ public class TriangleParserTest {
         expectedChildName = "all";
         assertEquals(expectedChildName, actualChildName);
 
-        //Check each type of Mutator
-        // int i = 1;
-        // for(MutatorType expectedType : MutatorType.values()) {
-        //     actualChildObject = ((DefaultMutableTreeNode)tModel.getMutantRoot().getChildAt(i)).getUserObject();
-        //     assert actualChildObject instanceof MutatorType;
-        //     MutatorType actualType = (MutatorType)actualChildObject;
-        //     assertEquals(expectedType, actualType);
-        //     i++;
-        // }
-
-
-
 
         //Check the parsed Killed
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //Create asserts later
 
     }
 }

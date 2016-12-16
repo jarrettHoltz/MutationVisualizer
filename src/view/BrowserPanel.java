@@ -80,4 +80,9 @@ public class BrowserPanel extends JPanel
 	public void setTreeSelectionListener(TreeSelectionListener listener) {
 		browserTree.addTreeSelectionListener(listener);
 	}
+
+	//Accessors
+	public JLabel getPanelTitle(){
+		return this.panelTitle;
+	}
 }

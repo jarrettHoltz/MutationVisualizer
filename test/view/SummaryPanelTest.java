@@ -12,13 +12,15 @@ import java.util.ArrayList;
 public class SummaryPanelTest {
 
     /*
-     * Test the 
+     * Test the constructor
      */
     @Test
-    public void test1() {
-        // Type actual = Triangle.classify(1, 1, 1);
-        // Type expected = EQUILATERAL;
-        // assertEquals (expected, actual);
-        assert(true);
+    public void testConstructor() {
+        
+    }
+
+    @Test
+    public void testBuildSummaryForNode() {
+        
     }
 }
