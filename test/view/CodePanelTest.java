@@ -151,4 +151,9 @@ public class CodePanelTest {
 
     }
 
+    //Future test: create a test to look at addSource
+    // @Test
+    // public void testAddSource() {
+    // }
+
 }

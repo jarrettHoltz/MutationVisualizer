@@ -159,7 +159,7 @@ public class TriangleParserTest {
 
 
         //Check the parsed Killed
-        //Create asserts later
+        //Future checking needed here!
 
     }
 }

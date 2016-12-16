@@ -64,7 +64,7 @@ public class TriangleModelTest {
         assertEquals(expectedSummary.getCovered(), actualSummary.getCovered());
         assertEquals(expectedSummary.getLive(), actualSummary.getLive());
         assertEquals(expectedSummary.getKilled(), actualSummary.getKilled());
-
-        
     }
+
+    //Future testing should look at the other smaller functions that we recently created
 }

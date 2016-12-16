@@ -94,21 +94,4 @@ public class MutatorTest {
         assertEquals(expectedSummary.getKilled(), actualSummary.getKilled());
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

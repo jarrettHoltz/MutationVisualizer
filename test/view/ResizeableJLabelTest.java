@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class ResizeableJLabelTest {
 
     /*
-     * Test the 
+     * Test the constructor
      */
     @Test
     public void testConstructor() {

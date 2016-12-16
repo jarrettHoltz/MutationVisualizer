@@ -6,6 +6,9 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import java.awt.Color;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 
 /**
@@ -32,12 +35,13 @@ public class MutantTreeCellRendererTest {
         assertEquals(expectedDefaultColorSelected, actualDefaultColorSelected);
     }
 
-    @Test
-    public void testTreeCellRendererComponent() {
-        //Instantiate the object
-        
-    }
+    //Future Test: Check the getTreeCellRendererComponent
+    // @Test
+    // public void testTreeCellRendererComponent() {
+    //     
+    // }
 
+    //Old tests for when these were public
     // @Test
     // public void testSetLiveColor() {
     //     //Instantiate the object

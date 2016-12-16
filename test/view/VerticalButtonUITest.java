@@ -24,13 +24,15 @@ public class VerticalButtonUITest {
         assertEquals(expectedAngle, actualAngle);
     }
 
-    @Test
-    public void testPreferredSize() {
-        //Not sure how to do this
-    }
+    //Future Test: make sure getPreferredSize returns correct Dimension
+    // @Test
+    // public void testPreferredSize() {
+        
+    // }
 
-    @Test
-    public void testPaint() {
-        //Not sure how to do this
-    }
+    //Future Test: Make sure paint is correct
+    // @Test
+    // public void testPaint() {
+        
+    // }
 }

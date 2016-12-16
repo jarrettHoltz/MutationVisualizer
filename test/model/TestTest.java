@@ -15,7 +15,7 @@ import static model.MutatorType.*;
 public class TestTest {
 
     /*
-     * Test the 
+     * Test the constructor
      */
     @Test
     public void testConstructor() {

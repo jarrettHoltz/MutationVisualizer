@@ -36,7 +36,7 @@ public class BrowserPanelTest {
         //Instantiate objects
         TriangleModel model = new TriangleModel();
         TriangleParser parser = new TriangleParser();
-        parser.buildModel(model,"triangle/mutation_results", "triangle/src", "triangle/test" );
+        parser.buildModel(model,"test_files/triangle/mutation_results", "test_files/triangle/src", "test_files/triangle/test" );
         BrowserPanel bPanel = new BrowserPanel(model);
 
 
@@ -141,7 +141,7 @@ public class BrowserPanelTest {
         //Instantiate objects
         TriangleModel model = new TriangleModel();
         TriangleParser parser = new TriangleParser();
-        parser.buildModel(model,"triangle/mutation_results", "triangle/src", "triangle/test" );
+        parser.buildModel(model,"test_files/triangle/mutation_results", "test_files/triangle/src", "test_files/triangle/test" );
         BrowserPanel bPanel = new BrowserPanel(model);
 
         bPanel.setProgram("programName");
@@ -159,7 +159,7 @@ public class BrowserPanelTest {
         //Instantiate objects
         TriangleModel model = new TriangleModel();
         TriangleParser parser = new TriangleParser();
-        parser.buildModel(model,"triangle/mutation_results", "triangle/src", "triangle/test" );
+        parser.buildModel(model,"test_files/triangle/mutation_results", "test_files/triangle/src", "test_files/triangle/test" );
         BrowserPanel bPanel = new BrowserPanel(model);
 
         bPanel.setDefaultSelection();
