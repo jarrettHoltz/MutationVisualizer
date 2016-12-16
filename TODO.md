@@ -14,20 +14,16 @@ In Summary.java
 
 
 Tests in controller to complete:
-	TriangleParserTest.java - need to look over again
-	BrowserListenerTest.java - need to get testValueChanged working
-	CodeLineMouseListenerTest.java - need mouse clicked test
+
 Tests in model to complete:
-	MutatorTest.java - needs updateSummary
-	TriangleModelTest.java - testConstructor
+	TriangleModelTest.java - may need to test more of the other functions...
 Tests in view to complete:
 	VerticalButtonUITest.java - paint and preferredsize
-	SummaryPanelTest.java
-	ResizeableJLabelTest.java
-	MutantVizWindowTest.java
+	SummaryPanelTest.java - needs full testing
+	ResizeableJLabelTest.java - may need to test more components, but most are private
+	MutantVizWindowTest.java - lots more to do here
 	MutantTreeCellRendererTest.java - need to do the treeCellRenderer test
 	CodePanelTest.java
 	BrowserPanelTest.java - need to do setTreeSelection, and also check jTree
-	BarGraphBarTest.java - dont know how to test private function
 
 Need to add meaningful comments to each test file

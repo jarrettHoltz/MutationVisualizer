@@ -79,6 +79,30 @@ public class BrowserPanelTest {
         assert cTree instanceof JTree;
         JTree actualTree = (JTree)cTree;
 
+        Object oRoot = actualTree.getModel().getRoot();
+        assert oRoot instanceof DefaultMutableTreeNode;
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode)oRoot;
+
+        int children = actualTree.getModel().getChildCount(root);
+        assertEquals(3, children);
+
+        for (int i = 0; i < 3; i++){
+            Object oChild = actualTree.getModel().getChild(root, i);
+            assert oChild instanceof DefaultMutableTreeNode;
+            DefaultMutableTreeNode child = (DefaultMutableTreeNode)oChild;
+            if (i == 0){
+                DefaultMutableTreeNode expectedSourceChild = (DefaultMutableTreeNode)model.getSourceRoot();
+                assertEquals(expectedSourceChild, child);
+            } else if (i == 1){
+                DefaultMutableTreeNode expectedTestChild = (DefaultMutableTreeNode)model.getTestRoot();
+                assertEquals(expectedTestChild, child);
+            } else {
+                DefaultMutableTreeNode expectedMutantChild = (DefaultMutableTreeNode)model.getMutantRoot();
+                assertEquals(expectedMutantChild, child);
+            }
+
+        }
+
         actualLabelConstraints = actualLayout.getConstraints(actualTree);
         expectedGridY = 1;
         expectedWeightX = 1;
@@ -148,16 +172,5 @@ public class BrowserPanelTest {
         int actualSelected = actualTree.getSelectionRows()[0];
         assertEquals(expectedSelected, actualSelected);
     }
-
-    @Test
-    public void testSetTreeSelectionListener() {
-        //Instantiate objects
-        // TriangleModel model = new TriangleModel();
-        // TriangleParser parser = new TriangleParser();
-        // parser.buildModel(model,"triangle/mutation_results", "triangle/src", "triangle/test" );
-        // BrowserPanel bPanel = new BrowserPanel(model);
-    }
-
-
 
 }
