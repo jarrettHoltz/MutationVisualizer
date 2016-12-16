@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.MutantStatus;
 
 import static model.MutatorType.*;
 
@@ -70,19 +71,27 @@ public class MutatorTest {
 
         //Initialize a mutant to add
         SourceClass sourceClass = new SourceClass("class", "", null);
-        Mutant m = new Mutant(2, LVR, sourceClass, "newName", 3, " \n \n \n ");
+        Mutant m1 = new Mutant(2, LVR, sourceClass, "newName", 3, " \n \n \n ");
+        m1.setStatus(MutantStatus.LIVE);
+        Mutant m2 = new Mutant(2, LVR, sourceClass, "newName", 3, " \n \n \n ");
+        m2.setStatus(MutantStatus.LIVE);
+        Mutant m3 = new Mutant(2, LVR, sourceClass, "newName", 3, " \n \n \n ");
+        m3.setStatus(MutantStatus.FAIL);
+        mt.addMutant(m1);
+        mt.addMutant(m2);
+        mt.addMutant(m3);
 
         //Initialize the Model to test with
         TriangleModel triMod = new TriangleModel();
 
         //Check the updateSummary without adding mutant
         mt.updateSummary(triMod);
-
-
-
-        //Check the updateSummary with a new mutant
-        mt.addMutant(m);
-
+        Summary expectedSummary = new Summary(3, 3, 2, 1);
+        Summary actualSummary = mt.getSummary();
+        assertEquals(expectedSummary.getTotal(), actualSummary.getTotal());
+        assertEquals(expectedSummary.getCovered(), actualSummary.getCovered());
+        assertEquals(expectedSummary.getLive(), actualSummary.getLive());
+        assertEquals(expectedSummary.getKilled(), actualSummary.getKilled());
     }
 
 

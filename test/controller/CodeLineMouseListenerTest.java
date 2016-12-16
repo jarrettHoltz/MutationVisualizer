@@ -9,6 +9,7 @@ import model.TriangleModel;
 import model.MutantVizModel;
 import view.MutantVizWindow;
 import java.awt.event.MouseEvent;
+import view.CodeLine;
 
 /**
  * Test class for the CodeLineMouseListener implementation.
@@ -49,10 +50,14 @@ public class CodeLineMouseListenerTest {
 
         //Add a listener and throw event
         mutantVizW.setMouseListener(cLis);
-        MouseEvent me = new MouseEvent(mutantVizW.getCodePanel(), 0, 0, 0, 100, 100, 1, false);
+        MouseEvent me = new MouseEvent(new CodeLine("the code", 3, 3), 0, 0, 0, 100, 100, 1, false);
 
         //Check the mouse clicked event
         cLis.mouseClicked(me);
-        //need a better test here.
+
+        MutantVizWindow mvw = cLis.getWindow();
+        String expectedCurrentView = "ComparisonView";
+        String actualCurrentView = mvw.getCurrentView();
+        assertEquals(expectedCurrentView, actualCurrentView);
     }
 }

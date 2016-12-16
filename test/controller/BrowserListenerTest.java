@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import model.TriangleModel;
 import model.MutantVizModel;
 import view.MutantVizWindow;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * Test class for the BrowserListener implementation.
@@ -49,8 +52,16 @@ public class BrowserListenerTest {
         //Add a listener
         mutantVizW.setTreeSelectionListener(bLis);
 
+        //Make a treeSelectionEvent
+        TreePath tp = new TreePath(new Object[] {new DefaultMutableTreeNode(), new DefaultMutableTreeNode(), new DefaultMutableTreeNode()});
+        TreeSelectionEvent tse = new TreeSelectionEvent(new Object(), tp, true, null, null);
 
         //Check the value changed function
-        
+        bLis.valueChanged(tse);
+
+        MutantVizWindow mvw = bLis.getWindow();
+        String expectedView = "SummaryView";
+        String actualView = mvw.getCurrentView();
+        assertEquals(expectedView, actualView);
     }
 }

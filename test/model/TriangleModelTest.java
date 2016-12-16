@@ -4,6 +4,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Test class for the TriangleModel implementation.
@@ -20,16 +23,31 @@ public class TriangleModelTest {
         //Initialize the TriangleModel
         TriangleModel tm = new TriangleModel();
 
+        //check the mutant list
+        List<Mutant> actualList = tm.getMutants();
+        List<Mutant>expectedList = new ArrayList<Mutant>();
+        assertEquals(expectedList, actualList);
+
         //Check the sources
+        Map<String,SourceClass> actualSources = tm.getSources();
+        Map<String,SourceClass> expectedSources = new HashMap<String,SourceClass>();
+        assertEquals(expectedSources, actualSources);
 
         //Check the tests
+        List<model.Test> actualTests = tm.getTests();
+        List<model.Test> expectedTests = new ArrayList<model.Test>();
+        assertEquals(expectedTests, actualTests);
 
-        //Check the mutants
-
-        //Check the mutator map
-
-        //Check the summary
-
+        //Check the mutators
+        Map<MutatorType, Mutator> actualMutators = tm.getMutators();
+        Map<MutatorType, Mutator> expectedMutators = new HashMap<MutatorType, Mutator>();
+        for(MutatorType type : MutatorType.values()) {
+            Mutator m = actualMutators.get(type);
+            assertNotNull(m);
+        }
+        int expectedSize = 5;
+        int actualSize = actualMutators.size();
+        assertEquals(expectedSize, actualSize);
     }
 
     @Test

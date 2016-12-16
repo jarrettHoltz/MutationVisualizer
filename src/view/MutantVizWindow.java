@@ -234,4 +234,8 @@ public class MutantVizWindow extends JFrame
 	public String getCurrentView(){
 		return this.currentView;
 	}
+
+	public SummaryPanel getSummaryPanel(){
+		return this.summaryPanel;
+	}
 }

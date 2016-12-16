@@ -82,6 +82,14 @@ public class TriangleModel implements MutantVizModel {
 	public TreeNode getTestRoot() {
 		return testRoot;
 	}
+
+	public Map<String,SourceClass> getSources(){
+		return this.sources;
+	}
+
+	public List<Test> getTests(){
+		return this.tests;
+	}
 	
 	@Override
 	public void setMutantRoot(TreeNode mutantRoot) {
@@ -126,6 +134,10 @@ public class TriangleModel implements MutantVizModel {
 		return tests.get(test_id).getMutants();
 	}
 
+	public List<Mutant> getMutants() {
+		return this.mutants;
+	}
+
 	@Override
 	public SourceClass getSourceClass(String classPath) {
 		return sources.get(classPath);
@@ -141,6 +153,10 @@ public class TriangleModel implements MutantVizModel {
 	@Override
 	public Mutator getMutator(MutatorType mutator) {
 		return mutators.get(mutator);
+	}
+
+	public Map<MutatorType, Mutator> getMutators(){
+		return this.mutators;
 	}
 	
 	@Override
