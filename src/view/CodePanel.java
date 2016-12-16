@@ -160,4 +160,20 @@ public class CodePanel extends JPanel
 	public void addNewMouseListener(MouseListener listener) {
 		mouseListeners.add(listener);
 	}
+
+	public JLabel getTitleLabel(){
+		return this.titleLabel;
+	}
+
+	public List<MouseListener> getMListeners(){
+		return this.mouseListeners;
+	}
+
+	public boolean getIsComparePanel(){
+		return this.isComparePanel;
+	}
+
+	public GridBagConstraints getGBC(){
+		return this.gbc;
+	}
 }
